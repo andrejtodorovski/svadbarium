@@ -11,6 +11,9 @@ export interface VenueSettings {
   contactEmail: string | null;
   contactPhone: string | null;
   socialLinks: Record<string, string>;
+  themePrimaryColor: string;
+  themeDarkColor: string;
+  themeLightColor: string;
   updatedAt: string;
 }
 

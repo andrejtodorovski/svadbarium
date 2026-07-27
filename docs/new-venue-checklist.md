@@ -45,6 +45,8 @@ Copy every variable from `.env.example` into the platform's environment variable
 | `JWT_SECRET` | Generate a fresh one per venue: `openssl rand -base64 48` |
 | `ADMIN_USERNAME` | Whatever username you want for this venue's admin |
 | `ADMIN_PASSWORD_HASH` | The bcrypt hash from step 2 |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USERNAME` / `SMTP_PASSWORD` | Needed for the landing page's contact form to send enquiry emails — any SMTP provider works (Gmail app password, SES, Mailgun, etc.) |
+| `MAIL_FROM_ADDRESS` | Optional — some providers require a verified sender identity here; defaults to the venue's own Contact Email if unset |
 
 **Set these before the first deploy.** The seed migration only runs once per database — changing
 `ADMIN_USERNAME`/`ADMIN_PASSWORD_HASH` after the fact and redeploying has no effect, since Flyway

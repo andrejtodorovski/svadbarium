@@ -1,0 +1,7 @@
+<button mat-icon-button class="lightbox-close" (click)="close()" aria-label="Close">
+  <mat-icon>close</mat-icon>
+</button>
+<img [src]="data.src" [alt]="data.caption || 'Venue photo'" class="lightbox-image" />
+@if (data.caption) {
+  <p class="lightbox-caption venue-display-font">{{ data.caption }}</p>
+}

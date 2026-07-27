@@ -1,0 +1,31 @@
+:host {
+  position: relative;
+  display: block;
+  background: var(--venue-dark);
+  padding: 1rem;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.lightbox-image {
+  max-width: 100%;
+  max-height: 80vh;
+  display: block;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.lightbox-caption {
+  text-align: center;
+  color: var(--venue-light);
+  font-style: italic;
+  margin: 1rem 0 0;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  color: var(--venue-light);
+  z-index: 1;
+}

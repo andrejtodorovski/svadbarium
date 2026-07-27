@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VenueSettingsService } from '../../core/services/venue-settings.service';
+import { ThemeService } from '../../core/services/theme.service';
 import { VenueSettings } from '../../core/models/venue-settings.model';
 
 @Component({
@@ -16,6 +17,7 @@ import { VenueSettings } from '../../core/models/venue-settings.model';
 })
 export class SettingsComponent {
   private readonly venueSettingsService = inject(VenueSettingsService);
+  private readonly themeService = inject(ThemeService);
   private readonly snackBar = inject(MatSnackBar);
 
   readonly settings = signal<VenueSettings | null>(null);
@@ -55,10 +57,14 @@ export class SettingsComponent {
         contactEmail: current.contactEmail,
         contactPhone: current.contactPhone,
         socialLinks,
+        themePrimaryColor: current.themePrimaryColor,
+        themeDarkColor: current.themeDarkColor,
+        themeLightColor: current.themeLightColor,
       })
       .subscribe({
         next: (updated) => {
           this.settings.set(updated);
+          this.themeService.apply(updated);
           this.saving.set(false);
           this.snackBar.open('Venue settings saved', 'Dismiss', { duration: 3000 });
         },

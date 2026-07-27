@@ -43,6 +43,15 @@ class VenueSettings(
     @Column(name = "social_links", columnDefinition = "jsonb")
     var socialLinks: Map<String, String> = emptyMap(),
 
+    @Column(name = "theme_primary_color")
+    var themePrimaryColor: String = "#B8923F",
+
+    @Column(name = "theme_dark_color")
+    var themeDarkColor: String = "#14261F",
+
+    @Column(name = "theme_light_color")
+    var themeLightColor: String = "#F7F2E7",
+
     @Column(name = "updated_at")
     var updatedAt: Instant = Instant.now(),
 )

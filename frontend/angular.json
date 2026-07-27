@@ -35,10 +35,10 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
               "node_modules/fullcalendar/skeleton.css",
               "node_modules/fullcalendar/themes/breezy/theme.css",
-              "node_modules/fullcalendar/themes/breezy/palettes/rose.css"
+              "node_modules/fullcalendar/themes/breezy/palettes/rose.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -52,8 +52,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "8kB",
+                  "maximumError": "16kB"
                 }
               ],
               "outputHashing": "all"

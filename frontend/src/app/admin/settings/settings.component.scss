@@ -15,4 +15,50 @@
       flex: 1;
     }
   }
+
+  .section-heading {
+    margin: 1rem 0 0.25rem;
+    font-size: 1.4rem;
+  }
+
+  .section-hint {
+    margin: 0 0 1rem;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.85rem;
+  }
+
+  .color-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .color-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .color-input {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    input[type='color'] {
+      width: 44px;
+      height: 34px;
+      padding: 0;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .color-hex {
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+  }
 }

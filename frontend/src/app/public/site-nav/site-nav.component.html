@@ -1,0 +1,9 @@
+<mat-toolbar
+  class="site-nav"
+  [class.site-nav--solid]="scrolled() || !transparentAtTop"
+>
+  <a routerLink="/" class="site-nav__brand venue-display-font">{{ venueName() }}</a>
+  <span class="site-nav__spacer"></span>
+  <a mat-button routerLink="/calendar" routerLinkActive="is-active" class="site-nav__link">Availability</a>
+  <a mat-button routerLink="/menu" routerLinkActive="is-active" class="site-nav__link">Menu</a>
+</mat-toolbar>

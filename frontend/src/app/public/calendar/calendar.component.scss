@@ -1,20 +1,10 @@
-.nav {
-  .brand {
-    font-family: "Playfair Display", Georgia, serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: inherit;
-  }
-  .spacer {
-    flex: 1 1 auto;
-  }
-}
-
 .calendar-page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  // Nav is fixed/overlaid now, so push content below it.
+  padding: calc(64px + 2rem) 1.5rem 2rem;
+  min-height: calc(100vh - 64px);
+  background: var(--venue-light);
 
   h1 {
     text-align: center;
@@ -22,12 +12,15 @@
 
   .hint {
     text-align: center;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--venue-ink-soft);
     margin-bottom: 1.5rem;
   }
 
+  ::ng-deep .day-available {
+    background-color: var(--status-available-bg);
+  }
+
   ::ng-deep .day-unavailable {
-    background-color: rgba(0, 0, 0, 0.06);
-    opacity: 0.6;
+    background-color: var(--status-unavailable-bg);
   }
 }

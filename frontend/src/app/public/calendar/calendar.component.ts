@@ -1,17 +1,16 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/angular/daygrid';
 import breezyThemePlugin from '@fullcalendar/angular/themes/breezy';
 import type { CalendarOptions, DatesSetInfo, DayCellInfo } from '@fullcalendar/angular';
 import { AvailabilityService } from '../../core/services/availability.service';
+import { SiteNavComponent } from '../site-nav/site-nav.component';
+import { SiteFooterComponent } from '../site-footer/site-footer.component';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [RouterLink, MatToolbarModule, MatButtonModule, FullCalendarModule],
+  imports: [FullCalendarModule, SiteNavComponent, SiteFooterComponent],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
@@ -27,7 +26,8 @@ export class CalendarComponent {
     selectable: false,
     height: 'auto',
     datesSet: (info: DatesSetInfo) => this.onDatesSet(info),
-    dayCellClass: (info: DayCellInfo) => (this.unavailableDates.has(this.toIsoDate(info.date)) ? 'day-unavailable' : undefined),
+    dayCellClass: (info: DayCellInfo) =>
+      this.unavailableDates.has(this.toIsoDate(info.date)) ? 'day-unavailable' : 'day-available',
   };
 
   private onDatesSet(info: DatesSetInfo): void {

@@ -1,65 +1,200 @@
-<mat-toolbar class="nav">
-  <span class="brand">{{ venueSettings()?.name || 'Wedding Venue' }}</span>
-  <span class="spacer"></span>
-  <a mat-button routerLink="/calendar">Availability</a>
-  <a mat-button routerLink="/menu">Menu</a>
-</mat-toolbar>
+<app-site-nav [transparentAtTop]="true"></app-site-nav>
+
+<!-- ============================= HERO ============================= -->
+<section class="hero">
+  <div class="hero__arch" aria-hidden="true">
+    <svg viewBox="0 0 900 700" fill="none" xmlns="http://www.w3.org/2000/svg" class="arch-svg">
+      <path class="arch-path" d="M120 680 C 100 460, 140 240, 300 120 C 400 40, 500 40, 600 120 C 760 240, 800 460, 780 680" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path class="arch-path arch-path--inner" d="M180 680 C 165 480, 200 280, 320 170 C 400 100, 500 100, 580 170 C 700 280, 735 480, 720 680" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.55"/>
+      <g class="leaf-cluster">
+        <path d="M120 680 C 100 620, 95 560, 108 500" stroke="currentColor" stroke-width="1"/>
+        <ellipse cx="112" cy="560" rx="8" ry="20" transform="rotate(18 112 560)" stroke="currentColor" stroke-width="0.8" fill="none"/>
+        <ellipse cx="118" cy="610" rx="7" ry="17" transform="rotate(-10 118 610)" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </g>
+      <g class="leaf-cluster">
+        <ellipse cx="298" cy="122" rx="9" ry="22" transform="rotate(60 298 122)" stroke="currentColor" stroke-width="0.8" fill="none"/>
+        <ellipse cx="450" cy="70" rx="9" ry="22" transform="rotate(2 450 70)" stroke="currentColor" stroke-width="0.8" fill="none"/>
+        <ellipse cx="602" cy="122" rx="9" ry="22" transform="rotate(-60 602 122)" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </g>
+      <g class="leaf-cluster">
+        <path d="M780 680 C 800 620, 805 560, 792 500" stroke="currentColor" stroke-width="1"/>
+        <ellipse cx="788" cy="560" rx="8" ry="20" transform="rotate(-18 788 560)" stroke="currentColor" stroke-width="0.8" fill="none"/>
+        <ellipse cx="782" cy="610" rx="7" ry="17" transform="rotate(10 782 610)" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </g>
+    </svg>
+  </div>
+
+  @if (venueSettings(); as settings) {
+    <div class="hero__content">
+      @if (settings.address) {
+        <p class="eyebrow">{{ settings.address }}</p>
+      }
+      <h1 class="hero__title">{{ settings.name }}</h1>
+      @if (settings.description) {
+        <p class="hero__tagline">{{ settings.description }}</p>
+      }
+      <div class="hero__actions">
+        <a mat-flat-button color="primary" routerLink="/calendar">Check Availability</a>
+        <a mat-stroked-button class="hero__ghost-btn" routerLink="/menu">View Menu</a>
+      </div>
+    </div>
+  }
+
+  <span class="hero__scroll" aria-hidden="true"><span></span></span>
+</section>
 
 @if (venueSettings(); as settings) {
-  <section class="hero">
-    <h1 class="venue-display-font">{{ settings.name }}</h1>
-    @if (settings.description) {
-      <p class="description">{{ settings.description }}</p>
-    }
-  </section>
+  <!-- ============================= ABOUT ============================= -->
+  <section class="section section--light">
+    <div class="section__inner about">
+      <div class="about__text" appScrollReveal>
+        <p class="eyebrow">About</p>
+        <h2 class="h2">A space made for your celebration</h2>
+        @if (settings.description) {
+          <p class="body-lg">{{ settings.description }}</p>
+        }
 
-  <section class="details">
-    @if (settings.address) {
-      <div class="detail-item">
-        <mat-icon>place</mat-icon>
-        <span>{{ settings.address }}</span>
+        <div class="about__facts">
+          @if (settings.address) {
+            <div class="fact">
+              <span class="fact__label">Location</span>
+              <span class="fact__value">{{ settings.address }}</span>
+            </div>
+          }
+          @if (settings.guestCapacityMin || settings.guestCapacityMax) {
+            <div class="fact">
+              <span class="fact__label">Capacity</span>
+              <span class="fact__value">{{ settings.guestCapacityMin }}&ndash;{{ settings.guestCapacityMax }} guests</span>
+            </div>
+          }
+          @if (settings.parkingInfo) {
+            <div class="fact">
+              <span class="fact__label">Parking</span>
+              <span class="fact__value">{{ settings.parkingInfo }}</span>
+            </div>
+          }
+        </div>
       </div>
-    }
-    @if (settings.guestCapacityMin || settings.guestCapacityMax) {
-      <div class="detail-item">
-        <mat-icon>groups</mat-icon>
-        <span>{{ settings.guestCapacityMin }}&ndash;{{ settings.guestCapacityMax }} guests</span>
-      </div>
-    }
-    @if (settings.parkingInfo) {
-      <div class="detail-item">
-        <mat-icon>local_parking</mat-icon>
-        <span>{{ settings.parkingInfo }}</span>
-      </div>
-    }
-    @if (settings.contactEmail) {
-      <div class="detail-item">
-        <mat-icon>mail</mat-icon>
-        <a [href]="'mailto:' + settings.contactEmail">{{ settings.contactEmail }}</a>
-      </div>
-    }
-    @if (settings.contactPhone) {
-      <div class="detail-item">
-        <mat-icon>call</mat-icon>
-        <a [href]="'tel:' + settings.contactPhone">{{ settings.contactPhone }}</a>
-      </div>
-    }
-    @for (entry of socialEntries(); track entry[0]) {
-      <div class="detail-item">
-        <mat-icon>link</mat-icon>
-        <span>{{ entry[0] }}: {{ entry[1] }}</span>
-      </div>
-    }
-  </section>
-}
 
-@if (gallery().length > 0) {
-  <section class="gallery">
-    <h2 class="venue-display-font">Gallery</h2>
-    <div class="gallery-grid">
-      @for (image of gallery(); track image.id) {
-        <img [src]="fileUrl(image.id)" [alt]="image.caption || 'Venue photo'" loading="lazy" />
-      }
+      <div class="about__visual" appScrollReveal aria-hidden="true">
+        <div class="botanical-frame">
+          <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="380" height="480" stroke="currentColor" stroke-width="1"/>
+            <path d="M200 40 C 140 90, 120 160, 140 230 C 100 260, 80 320, 90 390 M200 40 C 260 90, 280 160, 260 230 C 300 260, 320 320, 310 390" stroke="currentColor" stroke-width="1"/>
+            <ellipse cx="150" cy="150" rx="10" ry="24" transform="rotate(35 150 150)" stroke="currentColor" stroke-width="0.8"/>
+            <ellipse cx="250" cy="150" rx="10" ry="24" transform="rotate(-35 250 150)" stroke="currentColor" stroke-width="0.8"/>
+            <circle cx="200" cy="230" r="4" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
     </div>
   </section>
 }
+
+<!-- ============================= GALLERY ============================= -->
+@if (gallery().length > 0) {
+  <section class="section section--sage">
+    <div class="section__inner">
+      <p class="eyebrow" appScrollReveal>Gallery</p>
+      <h2 class="h2" appScrollReveal>A look inside the venue</h2>
+
+      <div class="gallery-grid">
+        @for (image of gallery(); track image.id; let i = $index) {
+          <button
+            type="button"
+            class="gallery__item"
+            [class.gallery__item--tall]="i % 5 === 0"
+            appScrollReveal
+            (click)="openLightbox(image)"
+          >
+            <img [src]="fileUrl(image.id)" [alt]="image.caption || 'Venue photo'" loading="lazy" />
+            @if (image.caption) {
+              <span class="gallery__caption venue-display-font">{{ image.caption }}</span>
+            }
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ============================= CONTACT / FOOTER ============================= -->
+@if (venueSettings(); as settings) {
+  <section class="section section--dark">
+    <div class="section__inner contact">
+      <div class="contact__intro" appScrollReveal>
+        <p class="eyebrow eyebrow--light">Contact</p>
+        <h2 class="h2 h2--light">Let's plan your celebration</h2>
+
+        <ul class="contact-list">
+          @if (settings.contactPhone) {
+            <li>
+              <span class="contact-list__label">Phone</span>
+              <a [href]="'tel:' + settings.contactPhone">{{ settings.contactPhone }}</a>
+            </li>
+          }
+          @if (settings.contactEmail) {
+            <li>
+              <span class="contact-list__label">Email</span>
+              <a [href]="'mailto:' + settings.contactEmail">{{ settings.contactEmail }}</a>
+            </li>
+          }
+          @if (settings.address) {
+            <li>
+              <span class="contact-list__label">Location</span>
+              <span>{{ settings.address }}</span>
+            </li>
+          }
+          @for (entry of socialEntries(); track entry[0]) {
+            <li>
+              <span class="contact-list__label">{{ entry[0] }}</span>
+              <a [href]="socialUrl(entry[0], entry[1])" target="_blank" rel="noopener">{{ entry[1] }}</a>
+            </li>
+          }
+        </ul>
+
+        @if (mapEmbedUrl(settings); as mapUrl) {
+          <div class="map-embed">
+            <iframe title="Venue location map" [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        }
+      </div>
+
+      <form class="contact-form" appScrollReveal (ngSubmit)="submitInquiry(inquiryNgForm)" #inquiryNgForm="ngForm">
+        <p class="contact-form__title venue-display-font">Send an enquiry</p>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Full name</mat-label>
+          <input matInput name="name" [(ngModel)]="inquiryForm.name" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="inquiryForm.email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone (optional)</mat-label>
+          <input matInput name="phone" [(ngModel)]="inquiryForm.phone" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Event date (optional)</mat-label>
+          <input matInput type="date" name="eventDate" [(ngModel)]="inquiryForm.eventDate" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Message</mat-label>
+          <textarea matInput name="message" rows="4" [(ngModel)]="inquiryForm.message" required></textarea>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="sendingInquiry() || inquiryNgForm.invalid">
+          {{ sendingInquiry() ? 'Sending...' : 'Send enquiry' }}
+        </button>
+      </form>
+    </div>
+
+  </section>
+}
+
+<app-site-footer></app-site-footer>

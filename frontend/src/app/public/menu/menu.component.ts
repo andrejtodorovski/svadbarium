@@ -1,15 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
 import { MenuService } from '../../core/services/menu.service';
 import { MenuFileMeta } from '../../core/models/menu-file.model';
+import { SiteNavComponent } from '../site-nav/site-nav.component';
+import { SiteFooterComponent } from '../site-footer/site-footer.component';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterLink, MatToolbarModule, MatButtonModule],
+  imports: [SiteNavComponent, SiteFooterComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
 })

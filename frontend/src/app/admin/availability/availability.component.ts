@@ -29,7 +29,8 @@ export class AvailabilityComponent {
     selectable: false,
     height: 'auto',
     datesSet: (info: DatesSetInfo) => this.onDatesSet(info),
-    dayCellClass: (info: DayCellInfo) => (this.unavailableDates.has(this.toIsoDate(info.date)) ? 'day-unavailable' : undefined),
+    dayCellClass: (info: DayCellInfo) =>
+      this.unavailableDates.has(this.toIsoDate(info.date)) ? 'day-unavailable' : 'day-available',
     dateClick: (info: DateClickInfo) => this.toggleDate(info.dateStr),
   };
 

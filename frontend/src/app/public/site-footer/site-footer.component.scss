@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.site-footer {
+  background: var(--venue-dark);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+
+  &__brand {
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: var(--venue-light);
+    margin: 0 0 0.5rem;
+  }
+
+  &__legal {
+    font-size: 0.75rem;
+    color: var(--venue-on-dark-soft);
+    margin: 0;
+  }
+}

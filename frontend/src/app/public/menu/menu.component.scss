@@ -1,20 +1,10 @@
-.nav {
-  .brand {
-    font-family: "Playfair Display", Georgia, serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: inherit;
-  }
-  .spacer {
-    flex: 1 1 auto;
-  }
-}
-
 .menu-page {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  // Nav is fixed/overlaid now, so push content below it.
+  padding: calc(64px + 2rem) 1.5rem 2rem;
+  min-height: calc(100vh - 64px);
+  background: var(--venue-light);
 
   h1 {
     text-align: center;
@@ -23,7 +13,7 @@
 
   .empty {
     text-align: center;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--venue-ink-soft);
   }
 
   .menu-item {
@@ -31,7 +21,7 @@
     text-align: center;
 
     h2 {
-      font-family: "Playfair Display", Georgia, serif;
+      font-family: "Cormorant Garamond", Georgia, serif;
       margin-bottom: 1rem;
     }
 
@@ -43,7 +33,7 @@
     .pdf-embed {
       width: 100%;
       height: 80vh;
-      border: 1px solid rgba(0, 0, 0, 0.12);
+      border: 1px solid color-mix(in srgb, var(--venue-ink) 12%, transparent 88%);
       border-radius: 6px;
     }
   }

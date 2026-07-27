@@ -29,6 +29,9 @@ class VenueSettingsService(
         settings.contactEmail = request.contactEmail
         settings.contactPhone = request.contactPhone
         settings.socialLinks = request.socialLinks
+        settings.themePrimaryColor = request.themePrimaryColor
+        settings.themeDarkColor = request.themeDarkColor
+        settings.themeLightColor = request.themeLightColor
         settings.updatedAt = Instant.now()
         return repository.save(settings).toDto()
     }
@@ -46,6 +49,9 @@ class VenueSettingsService(
         contactEmail = contactEmail,
         contactPhone = contactPhone,
         socialLinks = socialLinks,
+        themePrimaryColor = themePrimaryColor,
+        themeDarkColor = themeDarkColor,
+        themeLightColor = themeLightColor,
         updatedAt = updatedAt,
     )
 }

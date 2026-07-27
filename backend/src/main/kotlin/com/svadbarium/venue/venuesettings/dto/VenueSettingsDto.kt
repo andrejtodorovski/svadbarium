@@ -15,5 +15,8 @@ data class VenueSettingsDto(
     val contactEmail: String?,
     val contactPhone: String?,
     val socialLinks: Map<String, String>,
+    val themePrimaryColor: String,
+    val themeDarkColor: String,
+    val themeLightColor: String,
     val updatedAt: Instant,
 )

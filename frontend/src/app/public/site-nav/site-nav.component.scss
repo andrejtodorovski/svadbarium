@@ -1,0 +1,36 @@
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: transparent;
+  color: var(--venue-light);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+  padding: 0.4rem 1rem;
+
+  &--solid {
+    background: var(--venue-dark);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  &__brand {
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--venue-light);
+    text-decoration: none;
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__link {
+    color: var(--venue-on-dark-soft);
+    letter-spacing: 0.04em;
+
+    &.is-active {
+      color: var(--venue-primary-light);
+    }
+  }
+}

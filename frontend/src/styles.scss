@@ -6,21 +6,84 @@ html {
   @include mat.theme((
     color: (
       theme-type: light,
-      primary: mat.$rose-palette,
-      tertiary: mat.$green-palette,
+      primary: mat.$green-palette,
+      tertiary: mat.$yellow-palette,
     ),
-    typography: Inter,
+    typography: Jost,
     density: 0,
   ));
+}
+
+/* ==========================================================================
+   Venue brand tokens — the 3 raw colors below are admin-configurable (see
+   VenueSettingsService/ThemeService); everything else is derived from them
+   via color-mix() so a single palette change cascades through the whole
+   site, Material components included.
+   ========================================================================== */
+:root {
+  --venue-primary: #B8923F;
+  --venue-dark: #14261F;
+  --venue-light: #F7F2E7;
+  // Overridden at runtime by ThemeService with a real contrast computation;
+  // this default assumes the antique-gold default reads fine with dark text.
+  --venue-primary-contrast: #1a1a1a;
+
+  --venue-primary-light: color-mix(in srgb, var(--venue-primary) 55%, white 45%);
+  --venue-sage: color-mix(in srgb, var(--venue-light) 82%, var(--venue-dark) 18%);
+  --venue-ink: color-mix(in srgb, var(--venue-dark) 88%, black 12%);
+  --venue-ink-soft: color-mix(in srgb, var(--venue-ink) 68%, white 32%);
+  --venue-cream-soft: color-mix(in srgb, var(--venue-light) 78%, transparent 22%);
+  --venue-on-dark-soft: color-mix(in srgb, var(--venue-light) 78%, transparent 22%);
+
+  // Keep Angular Material's own accent color in sync with the venue's brand color —
+  // these declarations must stay after mat.theme()'s output above to win the cascade.
+  --mat-sys-primary: var(--venue-primary);
+  --mat-sys-on-primary: var(--venue-primary-contrast);
+  --mat-sys-surface-tint: var(--venue-primary);
+  --mat-sys-primary-container: color-mix(in srgb, var(--venue-primary) 22%, white 78%);
+  --mat-sys-on-primary-container: color-mix(in srgb, var(--venue-primary) 75%, black 25%);
+
+  // Same idea for FullCalendar's "breezy" theme — keep the availability calendar's accent
+  // (today marker, etc.) in sync with the venue's brand color instead of the rose default.
+  --fc-breezy-primary: var(--venue-primary);
+  --fc-breezy-primary-over: var(--venue-primary-light);
+  --fc-breezy-primary-foreground: var(--venue-primary-contrast);
+  --fc-breezy-now: var(--venue-primary);
+
+  // Availability status colors — fixed semantic red/green (booking status), not derived from the
+  // venue's brand palette, since "available vs. booked" needs a universally recognizable meaning.
+  --status-available-bg: color-mix(in srgb, #2e7d32 12%, white 88%);
+  --status-available-text: #1b5e20;
+  --status-unavailable-bg: color-mix(in srgb, #c62828 14%, white 86%);
+  --status-unavailable-text: #8e1c1c;
 }
 
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: "Jost", "Helvetica Neue", sans-serif; color: var(--venue-ink); }
 
 h1, h2, h3, .venue-display-font {
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 600;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
   letter-spacing: 0.01em;
+}
+
+html { scroll-behavior: smooth; }
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+
+  &--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .scroll-reveal { opacity: 1; transform: none; }
 }
