@@ -1,0 +1,26 @@
+<mat-toolbar class="nav">
+  <a routerLink="/" class="brand">Wedding Venue</a>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/calendar">Availability</a>
+</mat-toolbar>
+
+<section class="menu-page">
+  <h1 class="venue-display-font">Menu</h1>
+
+  @if (menus().length === 0) {
+    <p class="empty">No menu files have been uploaded yet.</p>
+  }
+
+  @for (menu of menus(); track menu.id) {
+    <div class="menu-item">
+      @if (menu.title) {
+        <h2>{{ menu.title }}</h2>
+      }
+      @if (isImage(menu.contentType)) {
+        <img [src]="fileUrl(menu.id)" [alt]="menu.title || 'Menu'" />
+      } @else {
+        <iframe [src]="trustedFileUrl(menu.id)" class="pdf-embed"></iframe>
+      }
+    </div>
+  }
+</section>

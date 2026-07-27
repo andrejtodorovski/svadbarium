@@ -1,0 +1,47 @@
+import { Routes } from '@angular/router';
+import { adminGuard } from './core/guards/admin.guard';
+
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./public/landing/landing.component').then((m) => m.LandingComponent),
+  },
+  {
+    path: 'calendar',
+    loadComponent: () => import('./public/calendar/calendar.component').then((m) => m.CalendarComponent),
+  },
+  {
+    path: 'menu',
+    loadComponent: () => import('./public/menu/menu.component').then((m) => m.MenuComponent),
+  },
+  {
+    path: 'admin/login',
+    loadComponent: () => import('./admin/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./admin/shell/admin-shell.component').then((m) => m.AdminShellComponent),
+    children: [
+      { path: '', redirectTo: 'settings', pathMatch: 'full' },
+      {
+        path: 'settings',
+        loadComponent: () => import('./admin/settings/settings.component').then((m) => m.SettingsComponent),
+      },
+      {
+        path: 'gallery',
+        loadComponent: () => import('./admin/gallery/gallery.component').then((m) => m.GalleryComponent),
+      },
+      {
+        path: 'menus',
+        loadComponent: () => import('./admin/menus/menus.component').then((m) => m.MenusComponent),
+      },
+      {
+        path: 'availability',
+        loadComponent: () =>
+          import('./admin/availability/availability.component').then((m) => m.AvailabilityComponent),
+      },
+    ],
+  },
+  { path: '**', redirectTo: '' },
+];

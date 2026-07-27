@@ -1,0 +1,33 @@
+.nav {
+  .brand {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: inherit;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+}
+
+.calendar-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+
+  h1 {
+    text-align: center;
+  }
+
+  .hint {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 1.5rem;
+  }
+
+  ::ng-deep .day-unavailable {
+    background-color: rgba(0, 0, 0, 0.06);
+    opacity: 0.6;
+  }
+}

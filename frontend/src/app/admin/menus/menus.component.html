@@ -1,0 +1,26 @@
+<h1 class="venue-display-font">Menus</h1>
+
+<div class="upload-row">
+  <input type="file" accept="image/jpeg,image/png,application/pdf" (change)="onFileSelected($event)" />
+  <input type="text" placeholder="Title (optional)" [(ngModel)]="title" name="title" class="title-input" />
+  <button mat-flat-button color="primary" (click)="upload()" [disabled]="!selectedFile || uploading()">
+    {{ uploading() ? 'Uploading...' : 'Upload' }}
+  </button>
+</div>
+
+<div cdkDropList class="menu-list" (cdkDropListDropped)="drop($event)">
+  @for (menu of menus(); track menu.id) {
+    <div cdkDrag class="menu-row">
+      <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
+      @if (isImage(menu.contentType)) {
+        <img [src]="fileUrl(menu.id)" [alt]="menu.title || 'Menu'" />
+      } @else {
+        <mat-icon class="pdf-icon">picture_as_pdf</mat-icon>
+      }
+      <span class="title-text">{{ menu.title || '(no title)' }}</span>
+      <button mat-icon-button (click)="delete(menu.id)" aria-label="Delete menu file">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  }
+</div>

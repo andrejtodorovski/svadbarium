@@ -1,0 +1,9 @@
+**/node_modules
+**/.angular
+**/dist
+**/.gradle
+**/build
+**/.git
+**/.idea
+**/.vscode
+**/*.log

@@ -1,0 +1,20 @@
+# IDE
+.idea/
+.vscode/
+
+# Backend (Gradle)
+backend/.gradle/
+backend/build/
+backend/src/main/resources/static/*
+!backend/src/main/resources/static/.gitkeep
+
+# Frontend (Angular/npm)
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Env
+.env
+
+# OS
+.DS_Store

@@ -1,0 +1,30 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 1.5rem;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.full-width {
+  width: 100%;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.error {
+  color: #b3261e;
+  font-size: 0.875rem;
+  margin: 0 0 1rem;
+}

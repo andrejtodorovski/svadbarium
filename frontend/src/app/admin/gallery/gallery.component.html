@@ -1,0 +1,22 @@
+<h1 class="venue-display-font">Gallery</h1>
+
+<div class="upload-row">
+  <input type="file" accept="image/jpeg,image/png" (change)="onFileSelected($event)" />
+  <input type="text" placeholder="Caption (optional)" [(ngModel)]="caption" name="caption" class="caption-input" />
+  <button mat-flat-button color="primary" (click)="upload()" [disabled]="!selectedFile || uploading()">
+    {{ uploading() ? 'Uploading...' : 'Upload' }}
+  </button>
+</div>
+
+<div cdkDropList class="image-list" (cdkDropListDropped)="drop($event)">
+  @for (image of images(); track image.id) {
+    <div cdkDrag class="image-row">
+      <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
+      <img [src]="fileUrl(image.id)" [alt]="image.caption || 'Gallery photo'" />
+      <span class="caption-text">{{ image.caption || '(no caption)' }}</span>
+      <button mat-icon-button (click)="delete(image.id)" aria-label="Delete photo">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  }
+</div>

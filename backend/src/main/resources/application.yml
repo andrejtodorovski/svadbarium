@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: svadbarium
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5433/venuedb}
+    username: ${DATABASE_USERNAME:venue}
+    password: ${DATABASE_PASSWORD:venue_dev_password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    placeholders:
+      adminUsername: ${ADMIN_USERNAME:admin}
+      adminPasswordHash: "${ADMIN_PASSWORD_HASH:$2a$10$ezQ2ycTY9Wb7xMiqS79ZHO/BsJxOKnYZrkwMNRaCIFeYqyeHor726}"
+  servlet:
+    multipart:
+      max-file-size: 11MB
+      max-request-size: 11MB
+
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:local-dev-only-change-me-local-dev-only-change-me}
+  expiration-ms: 7200000
+
+file-upload:
+  max-size-bytes: 10485760
+  allowed-image-types: image/jpeg,image/png
+  allowed-menu-types: image/jpeg,image/png,application/pdf

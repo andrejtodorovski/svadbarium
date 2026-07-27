@@ -1,0 +1,11 @@
+<mat-toolbar class="nav">
+  <a routerLink="/" class="brand">Wedding Venue</a>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/menu">Menu</a>
+</mat-toolbar>
+
+<section class="calendar-page">
+  <h1 class="venue-display-font">Availability</h1>
+  <p class="hint">Greyed-out dates are already booked.</p>
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</section>

@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  max-width: 900px;
+}
+
+.hint {
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 1.5rem;
+}
+
+::ng-deep .day-unavailable {
+  background-color: rgba(0, 0, 0, 0.06);
+}

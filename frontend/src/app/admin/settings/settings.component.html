@@ -1,0 +1,62 @@
+<h1 class="venue-display-font">Venue Settings</h1>
+
+@if (settings(); as s) {
+  <form class="settings-form" (ngSubmit)="save()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Venue name</mat-label>
+      <input matInput name="name" [(ngModel)]="s.name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput name="description" rows="3" [(ngModel)]="s.description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Address</mat-label>
+      <input matInput name="address" [(ngModel)]="s.address" />
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Min guests</mat-label>
+        <input matInput type="number" name="guestCapacityMin" [(ngModel)]="s.guestCapacityMin" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Max guests</mat-label>
+        <input matInput type="number" name="guestCapacityMax" [(ngModel)]="s.guestCapacityMax" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Parking info</mat-label>
+      <input matInput name="parkingInfo" [(ngModel)]="s.parkingInfo" />
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Contact email</mat-label>
+        <input matInput name="contactEmail" [(ngModel)]="s.contactEmail" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Contact phone</mat-label>
+        <input matInput name="contactPhone" [(ngModel)]="s.contactPhone" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Instagram</mat-label>
+        <input matInput name="instagram" [(ngModel)]="instagram" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Facebook</mat-label>
+        <input matInput name="facebook" [(ngModel)]="facebook" />
+      </mat-form-field>
+    </div>
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : 'Save changes' }}
+    </button>
+  </form>
+}

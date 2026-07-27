@@ -1,0 +1,50 @@
+.nav {
+  .brand {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: inherit;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+}
+
+.menu-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .menu-item {
+    margin-bottom: 2.5rem;
+    text-align: center;
+
+    h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      margin-bottom: 1rem;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+
+    .pdf-embed {
+      width: 100%;
+      height: 80vh;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 6px;
+    }
+  }
+}

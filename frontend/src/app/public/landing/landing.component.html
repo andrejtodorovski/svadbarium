@@ -1,0 +1,65 @@
+<mat-toolbar class="nav">
+  <span class="brand">{{ venueSettings()?.name || 'Wedding Venue' }}</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/calendar">Availability</a>
+  <a mat-button routerLink="/menu">Menu</a>
+</mat-toolbar>
+
+@if (venueSettings(); as settings) {
+  <section class="hero">
+    <h1 class="venue-display-font">{{ settings.name }}</h1>
+    @if (settings.description) {
+      <p class="description">{{ settings.description }}</p>
+    }
+  </section>
+
+  <section class="details">
+    @if (settings.address) {
+      <div class="detail-item">
+        <mat-icon>place</mat-icon>
+        <span>{{ settings.address }}</span>
+      </div>
+    }
+    @if (settings.guestCapacityMin || settings.guestCapacityMax) {
+      <div class="detail-item">
+        <mat-icon>groups</mat-icon>
+        <span>{{ settings.guestCapacityMin }}&ndash;{{ settings.guestCapacityMax }} guests</span>
+      </div>
+    }
+    @if (settings.parkingInfo) {
+      <div class="detail-item">
+        <mat-icon>local_parking</mat-icon>
+        <span>{{ settings.parkingInfo }}</span>
+      </div>
+    }
+    @if (settings.contactEmail) {
+      <div class="detail-item">
+        <mat-icon>mail</mat-icon>
+        <a [href]="'mailto:' + settings.contactEmail">{{ settings.contactEmail }}</a>
+      </div>
+    }
+    @if (settings.contactPhone) {
+      <div class="detail-item">
+        <mat-icon>call</mat-icon>
+        <a [href]="'tel:' + settings.contactPhone">{{ settings.contactPhone }}</a>
+      </div>
+    }
+    @for (entry of socialEntries(); track entry[0]) {
+      <div class="detail-item">
+        <mat-icon>link</mat-icon>
+        <span>{{ entry[0] }}: {{ entry[1] }}</span>
+      </div>
+    }
+  </section>
+}
+
+@if (gallery().length > 0) {
+  <section class="gallery">
+    <h2 class="venue-display-font">Gallery</h2>
+    <div class="gallery-grid">
+      @for (image of gallery(); track image.id) {
+        <img [src]="fileUrl(image.id)" [alt]="image.caption || 'Venue photo'" loading="lazy" />
+      }
+    </div>
+  </section>
+}
