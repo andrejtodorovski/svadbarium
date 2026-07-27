@@ -13,6 +13,7 @@ class InquiryService(
     private val venueSettingsRepository: VenueSettingsRepository,
     // Many SMTP providers (SES, SendGrid, etc.) reject mail with no/mismatched From address.
     // Defaults to the venue's own contact address if no dedicated sender address is configured.
+    // Not set right now
     @Value("\${app.mail.from-address:}") private val fromAddress: String,
 ) {
     fun send(request: InquiryRequest) {
