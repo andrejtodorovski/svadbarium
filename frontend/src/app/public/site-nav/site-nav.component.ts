@@ -18,7 +18,7 @@ export class SiteNavComponent {
   @Input() transparentAtTop = false;
 
   private readonly venueSettingsService = inject(VenueSettingsService);
-  readonly venueName = signal('Wedding Venue');
+  readonly venueName = signal('Венчална сала');
   readonly scrolled = signal(false);
 
   constructor() {

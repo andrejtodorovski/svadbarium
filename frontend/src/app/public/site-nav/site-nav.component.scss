@@ -26,10 +26,15 @@
   }
 
   &__link {
+    // Material's own ".mat-toolbar .mat-mdc-button-base..." rule sets this same token at
+    // higher specificity (it repeats a class to boost itself), so overriding the color
+    // alone isn't enough — the !important is needed to actually win that token.
+    --mdc-text-button-label-text-color: var(--venue-on-dark-soft) !important;
     color: var(--venue-on-dark-soft);
     letter-spacing: 0.04em;
 
     &.is-active {
+      --mdc-text-button-label-text-color: var(--venue-primary-light) !important;
       color: var(--venue-primary-light);
     }
   }

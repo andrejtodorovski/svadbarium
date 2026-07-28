@@ -10,7 +10,7 @@ import { VenueSettingsService } from '../../core/services/venue-settings.service
 export class SiteFooterComponent {
   private readonly venueSettingsService = inject(VenueSettingsService);
 
-  readonly venueName = signal('Wedding Venue');
+  readonly venueName = signal('Венчална сала');
   readonly currentYear = new Date().getFullYear();
 
   constructor() {

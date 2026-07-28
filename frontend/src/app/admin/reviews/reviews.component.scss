@@ -1,0 +1,82 @@
+.section-hint {
+  margin: 0 0 1.5rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.85rem;
+  max-width: 640px;
+}
+
+.review-form {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+
+  .full-width {
+    width: 100%;
+  }
+
+  .row {
+    display: flex;
+    gap: 1rem;
+
+    mat-form-field {
+      flex: 1;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.review-list {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.review-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  background: white;
+
+  .drag-handle {
+    cursor: move;
+    color: rgba(0, 0, 0, 0.4);
+    margin-top: 0.2rem;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    margin: 0 0 0.25rem;
+    font-weight: 600;
+  }
+
+  &__date {
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  &__text {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 0.9rem;
+  }
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

@@ -138,6 +138,9 @@ $pad: clamp(1.25rem, 4vw, 3rem);
 /* ============================= Sections ============================= */
 .section {
   padding: clamp(4.5rem, 9vw, 8rem) $pad;
+  // Sections are jump targets for the shared nav's anchor links — this keeps the fixed
+  // nav bar from covering the top of the section when scrolled/jumped to.
+  scroll-margin-top: 5rem;
 
   &--light { background: var(--venue-light); }
   &--sage { background: var(--venue-sage); }
@@ -247,6 +250,67 @@ $pad: clamp(1.25rem, 4vw, 3rem);
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
 }
 
+/* Reviews */
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.review-card {
+  margin: 0;
+  padding: 1.75rem;
+  background: var(--venue-cream-soft);
+  border: 1px solid color-mix(in srgb, var(--venue-ink) 10%, transparent 90%);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &__text {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--venue-ink);
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__name {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--venue-ink);
+  }
+
+  &__date {
+    font-size: 0.8rem;
+    color: var(--venue-ink-soft);
+  }
+
+  &__link {
+    font-size: 0.8rem;
+    color: var(--venue-primary);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--venue-primary) 40%, transparent 60%);
+    width: fit-content;
+    margin-top: 0.2rem;
+  }
+}
+
+.review-grid__cta {
+  margin-top: 2.5rem;
+}
+
 /* Contact / footer */
 .contact {
   display: grid;
@@ -305,12 +369,6 @@ $pad: clamp(1.25rem, 4vw, 3rem);
   }
 }
 
-.contact__actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
 
 .contact-form {
   background: var(--venue-light);

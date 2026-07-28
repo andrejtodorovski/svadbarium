@@ -33,6 +33,10 @@ export const routes: Routes = [
         loadComponent: () => import('./admin/gallery/gallery.component').then((m) => m.GalleryComponent),
       },
       {
+        path: 'reviews',
+        loadComponent: () => import('./admin/reviews/reviews.component').then((m) => m.ReviewsComponent),
+      },
+      {
         path: 'menus',
         loadComponent: () => import('./admin/menus/menus.component').then((m) => m.MenusComponent),
       },

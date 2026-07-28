@@ -34,8 +34,8 @@
         <p class="hero__tagline">{{ settings.description }}</p>
       }
       <div class="hero__actions">
-        <a mat-flat-button color="primary" routerLink="/calendar">Check Availability</a>
-        <a mat-stroked-button class="hero__ghost-btn" routerLink="/menu">View Menu</a>
+        <a mat-flat-button color="primary" routerLink="/calendar">Провери достапност</a>
+        <a mat-stroked-button class="hero__ghost-btn" routerLink="/menu">Погледни мени</a>
       </div>
     </div>
   }
@@ -45,11 +45,11 @@
 
 @if (venueSettings(); as settings) {
   <!-- ============================= ABOUT ============================= -->
-  <section class="section section--light">
+  <section id="about" class="section section--light">
     <div class="section__inner about">
       <div class="about__text" appScrollReveal>
-        <p class="eyebrow">About</p>
-        <h2 class="h2">A space made for your celebration</h2>
+        <p class="eyebrow">За нас</p>
+        <h2 class="h2">Простор создаден за вашата прослава</h2>
         @if (settings.description) {
           <p class="body-lg">{{ settings.description }}</p>
         }
@@ -57,19 +57,19 @@
         <div class="about__facts">
           @if (settings.address) {
             <div class="fact">
-              <span class="fact__label">Location</span>
+              <span class="fact__label">Локација</span>
               <span class="fact__value">{{ settings.address }}</span>
             </div>
           }
           @if (settings.guestCapacityMin || settings.guestCapacityMax) {
             <div class="fact">
-              <span class="fact__label">Capacity</span>
-              <span class="fact__value">{{ settings.guestCapacityMin }}&ndash;{{ settings.guestCapacityMax }} guests</span>
+              <span class="fact__label">Капацитет</span>
+              <span class="fact__value">{{ settings.guestCapacityMin }}&ndash;{{ settings.guestCapacityMax }} гости</span>
             </div>
           }
           @if (settings.parkingInfo) {
             <div class="fact">
-              <span class="fact__label">Parking</span>
+              <span class="fact__label">Паркинг</span>
               <span class="fact__value">{{ settings.parkingInfo }}</span>
             </div>
           }
@@ -93,10 +93,10 @@
 
 <!-- ============================= GALLERY ============================= -->
 @if (gallery().length > 0) {
-  <section class="section section--sage">
+  <section id="gallery" class="section section--sage">
     <div class="section__inner">
-      <p class="eyebrow" appScrollReveal>Gallery</p>
-      <h2 class="h2" appScrollReveal>A look inside the venue</h2>
+      <p class="eyebrow" appScrollReveal>Галерија</p>
+      <h2 class="h2" appScrollReveal>Поглед во просторот</h2>
 
       <div class="gallery-grid">
         @for (image of gallery(); track image.id; let i = $index) {
@@ -107,7 +107,7 @@
             appScrollReveal
             (click)="openLightbox(image)"
           >
-            <img [src]="fileUrl(image.id)" [alt]="image.caption || 'Venue photo'" loading="lazy" />
+            <img [src]="fileUrl(image.id)" [alt]="image.caption || 'Фотографија од просторот'" loading="lazy" />
             @if (image.caption) {
               <span class="gallery__caption venue-display-font">{{ image.caption }}</span>
             }
@@ -118,89 +118,119 @@
   </section>
 }
 
+<!-- ============================= REVIEWS ============================= -->
+@if (reviews().length > 0) {
+  <section id="reviews" class="section section--light">
+    <div class="section__inner">
+      <p class="eyebrow" appScrollReveal>Искуства</p>
+      <h2 class="h2" appScrollReveal>Што кажуваат нашите гости</h2>
+
+      <div class="review-grid">
+        @for (review of reviews(); track review.id) {
+          <blockquote class="review-card" appScrollReveal>
+            <p class="review-card__text">&ldquo;{{ review.reviewText }}&rdquo;</p>
+            <footer class="review-card__footer">
+              <cite class="review-card__name">{{ review.reviewerName }}</cite>
+              @if (review.reviewDate) {
+                <span class="review-card__date">{{ review.reviewDate | date: 'mediumDate' }}</span>
+              }
+              @if (review.googleReviewUrl) {
+                <a class="review-card__link" [href]="review.googleReviewUrl" target="_blank" rel="noopener">
+                  Погледни на Google
+                </a>
+              }
+            </footer>
+          </blockquote>
+        }
+      </div>
+
+      @if (venueSettings()?.googleReviewsUrl; as reviewsUrl) {
+        <a mat-stroked-button class="review-grid__cta" [href]="reviewsUrl" target="_blank" rel="noopener">
+          Погледни ги сите искуства
+        </a>
+      }
+    </div>
+  </section>
+}
+
 <!-- ============================= CONTACT / FOOTER ============================= -->
 @if (venueSettings(); as settings) {
-  <section class="section section--dark">
+  <section id="contact" class="section section--dark">
     <div class="section__inner contact">
       <div class="contact__intro" appScrollReveal>
-        <p class="eyebrow eyebrow--light">Contact</p>
-        <h2 class="h2 h2--light">Let's plan your celebration</h2>
+        <p class="eyebrow eyebrow--light">Контакт</p>
+        <h2 class="h2 h2--light">Да ја испланираме вашата прослава</h2>
 
         <ul class="contact-list">
           @if (settings.contactPhone) {
             <li>
-              <span class="contact-list__label">Phone</span>
+              <span class="contact-list__label">Телефон</span>
               <a [href]="'tel:' + settings.contactPhone">{{ settings.contactPhone }}</a>
             </li>
           }
           @if (settings.contactEmail) {
             <li>
-              <span class="contact-list__label">Email</span>
+              <span class="contact-list__label">Е-пошта</span>
               <a [href]="'mailto:' + settings.contactEmail">{{ settings.contactEmail }}</a>
             </li>
           }
           @if (settings.address) {
             <li>
-              <span class="contact-list__label">Location</span>
+              <span class="contact-list__label">Локација</span>
               <span>{{ settings.address }}</span>
+            </li>
+          }
+          @if (settings.contactPhone) {
+            <li>
+              <span class="contact-list__label">Viber</span>
+              <a [href]="viberUrl(settings.contactPhone)">Пишете на Viber</a>
             </li>
           }
           @for (entry of socialEntries(); track entry[0]) {
             <li>
-              <span class="contact-list__label">{{ entry[0] }}</span>
-              <a [href]="socialUrl(entry[0], entry[1])" target="_blank" rel="noopener">{{ entry[1] }}</a>
+              <span class="contact-list__label">{{ platformLabel(entry[0]) }}</span>
+              <a [href]="socialUrl(entry[0], entry[1])" target="_blank" rel="noopener">{{ platformLabel(entry[0]) }}</a>
             </li>
           }
         </ul>
 
         @if (mapEmbedUrl(settings); as mapUrl) {
           <div class="map-embed">
-            <iframe title="Venue location map" [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-        }
-
-        @if (settings.contactPhone || settings.googleReviewsUrl) {
-          <div class="contact__actions">
-            @if (settings.contactPhone) {
-              <a mat-stroked-button class="hero__ghost-btn" [href]="viberUrl(settings.contactPhone)">Chat on Viber</a>
-            }
-            @if (settings.googleReviewsUrl) {
-              <a mat-stroked-button class="hero__ghost-btn" [href]="settings.googleReviewsUrl" target="_blank" rel="noopener">Read our reviews</a>
-            }
+            <iframe title="Мапа на локацијата" [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         }
       </div>
 
       <form class="contact-form" appScrollReveal (ngSubmit)="submitInquiry(inquiryNgForm)" #inquiryNgForm="ngForm">
-        <p class="contact-form__title venue-display-font">Send an enquiry</p>
+        <p class="contact-form__title venue-display-font">Испратете барање</p>
 
         <mat-form-field appearance="outline">
-          <mat-label>Full name</mat-label>
+          <mat-label>Име и презиме</mat-label>
           <input matInput name="name" [(ngModel)]="inquiryForm.name" required />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
+          <mat-label>Е-пошта</mat-label>
           <input matInput type="email" name="email" [(ngModel)]="inquiryForm.email" required />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Phone (optional)</mat-label>
+          <mat-label>Телефон (опционално)</mat-label>
           <input matInput name="phone" [(ngModel)]="inquiryForm.phone" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Event date (optional)</mat-label>
+          <mat-label>Датум на настанот (опционално)</mat-label>
           <input matInput type="date" name="eventDate" [(ngModel)]="inquiryForm.eventDate" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Message</mat-label>
+          <mat-label>Порака</mat-label>
           <textarea matInput name="message" rows="4" [(ngModel)]="inquiryForm.message" required></textarea>
         </mat-form-field>
 
         <button mat-flat-button color="primary" type="submit" [disabled]="sendingInquiry() || inquiryNgForm.invalid">
-          {{ sendingInquiry() ? 'Sending...' : 'Send enquiry' }}
+          {{ sendingInquiry() ? 'Се испраќа...' : 'Испрати барање' }}
         </button>
       </form>
     </div>

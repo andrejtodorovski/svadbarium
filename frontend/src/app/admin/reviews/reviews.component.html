@@ -1,0 +1,60 @@
+<h1 class="venue-display-font">Reviews</h1>
+<p class="section-hint">
+  Shown on the public site as up to 3 highlighted testimonials, in the order below. The "See all
+  reviews" button next to them uses the Google Reviews URL set in Venue Settings.
+</p>
+
+<form class="review-form" (ngSubmit)="save()">
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Reviewer name</mat-label>
+      <input matInput name="reviewerName" [(ngModel)]="form.reviewerName" required />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Review date (optional)</mat-label>
+      <input matInput type="date" name="reviewDate" [(ngModel)]="form.reviewDate" />
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Review text</mat-label>
+    <textarea matInput name="reviewText" rows="3" [(ngModel)]="form.reviewText" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Link to this review (optional)</mat-label>
+    <input matInput name="googleReviewUrl" [(ngModel)]="form.googleReviewUrl" placeholder="https://g.page/r/..." />
+  </mat-form-field>
+
+  <div class="form-actions">
+    <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : editingId() ? 'Save changes' : 'Add review' }}
+    </button>
+    @if (editingId()) {
+      <button mat-button type="button" (click)="cancelEdit()">Cancel</button>
+    }
+  </div>
+</form>
+
+<div cdkDropList class="review-list" (cdkDropListDropped)="drop($event)">
+  @for (review of reviews(); track review.id) {
+    <div cdkDrag class="review-row">
+      <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
+      <div class="review-row__body">
+        <p class="review-row__name">
+          {{ review.reviewerName }}
+          @if (review.reviewDate) {
+            <span class="review-row__date">{{ review.reviewDate }}</span>
+          }
+        </p>
+        <p class="review-row__text">{{ review.reviewText }}</p>
+      </div>
+      <button mat-icon-button (click)="edit(review)" aria-label="Edit review">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="delete(review.id)" aria-label="Delete review">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  }
+</div>

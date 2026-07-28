@@ -3,6 +3,10 @@ import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular
 import dayGridPlugin from '@fullcalendar/angular/daygrid';
 import breezyThemePlugin from '@fullcalendar/angular/themes/breezy';
 import type { CalendarOptions, DatesSetInfo, DayCellInfo } from '@fullcalendar/angular';
+
+// FullCalendar v7 doesn't ship a bundled 'mk' locale, so the weekday header text is
+// overridden directly rather than relying on the locale system.
+const MK_WEEKDAY_ABBREVIATIONS = ['Нед', 'Пон', 'Вто', 'Сре', 'Чет', 'Пет', 'Саб'];
 import { AvailabilityService } from '../../core/services/availability.service';
 import { SiteNavComponent } from '../site-nav/site-nav.component';
 import { SiteFooterComponent } from '../site-footer/site-footer.component';
@@ -25,6 +29,7 @@ export class CalendarComponent {
     initialView: 'dayGridMonth',
     selectable: false,
     height: 'auto',
+    dayHeaderContent: (arg: { date: Date }) => MK_WEEKDAY_ABBREVIATIONS[arg.date.getDay()],
     datesSet: (info: DatesSetInfo) => this.onDatesSet(info),
     dayCellClass: (info: DayCellInfo) =>
       this.unavailableDates.has(this.toIsoDate(info.date)) ? 'day-unavailable' : 'day-available',

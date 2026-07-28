@@ -4,6 +4,10 @@
 >
   <a routerLink="/" class="site-nav__brand venue-display-font">{{ venueName() }}</a>
   <span class="site-nav__spacer"></span>
-  <a mat-button routerLink="/calendar" routerLinkActive="is-active" class="site-nav__link">Availability</a>
-  <a mat-button routerLink="/menu" routerLinkActive="is-active" class="site-nav__link">Menu</a>
+  <a mat-button routerLink="/" fragment="about" class="site-nav__link">За нас</a>
+  <a mat-button routerLink="/" fragment="gallery" class="site-nav__link">Галерија</a>
+  <a mat-button routerLink="/" fragment="reviews" class="site-nav__link">Искуства</a>
+  <a mat-button routerLink="/" fragment="contact" class="site-nav__link">Контакт</a>
+  <a mat-button routerLink="/calendar" routerLinkActive="is-active" class="site-nav__link">Достапност</a>
+  <a mat-button routerLink="/menu" routerLinkActive="is-active" class="site-nav__link">Мени</a>
 </mat-toolbar>

@@ -1,10 +1,10 @@
 <app-site-nav></app-site-nav>
 
 <section class="menu-page">
-  <h1 class="venue-display-font">Menu</h1>
+  <h1 class="venue-display-font">Мени</h1>
 
   @if (menus().length === 0) {
-    <p class="empty">No menu files have been uploaded yet.</p>
+    <p class="empty">Сè уште нема поставено мени.</p>
   }
 
   @for (menu of menus(); track menu.id) {
@@ -13,7 +13,7 @@
         <h2>{{ menu.title }}</h2>
       }
       @if (isImage(menu.contentType)) {
-        <img [src]="fileUrl(menu.id)" [alt]="menu.title || 'Menu'" />
+        <img [src]="fileUrl(menu.id)" [alt]="menu.title || 'Мени'" />
       } @else {
         <iframe [src]="trustedFileUrl(menu.id)" class="pdf-embed"></iframe>
       }
