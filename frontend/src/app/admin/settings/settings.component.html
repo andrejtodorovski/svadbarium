@@ -19,6 +19,21 @@
 
     <div class="row">
       <mat-form-field appearance="outline">
+        <mat-label>Latitude</mat-label>
+        <input matInput type="number" step="any" name="latitude" [(ngModel)]="s.latitude" placeholder="42.1579" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Longitude</mat-label>
+        <input matInput type="number" step="any" name="longitude" [(ngModel)]="s.longitude" placeholder="21.8593" />
+      </mat-form-field>
+    </div>
+    <p class="section-hint">
+      Optional — used as a fallback pin if no map embed URL is set below (right-click the spot on
+      Google Maps and the coordinates are the first item in the menu).
+    </p>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
         <mat-label>Min guests</mat-label>
         <input matInput type="number" name="guestCapacityMin" [(ngModel)]="s.guestCapacityMin" />
       </mat-form-field>
@@ -60,6 +75,17 @@
       <input matInput name="googleReviewsUrl" [(ngModel)]="s.googleReviewsUrl"
         placeholder="https://g.page/r/..." />
       <mat-hint>Link to your venue's Google Maps listing — shown as a "Read our reviews" button</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Google Maps embed URL</mat-label>
+      <textarea matInput name="mapEmbedUrl" rows="2" [(ngModel)]="s.mapEmbedUrl"
+        placeholder="https://www.google.com/maps/embed?pb=..."></textarea>
+      <mat-hint>
+        On Google Maps: Share &rarr; Embed a map &rarr; copy only the src="..." URL from the
+        &lt;iframe&gt; code (not the whole code) and paste it here. Leave blank to fall back to a
+        plain pin built from the address above.
+      </mat-hint>
     </mat-form-field>
 
     <h2 class="section-heading venue-display-font">Brand Colors</h2>

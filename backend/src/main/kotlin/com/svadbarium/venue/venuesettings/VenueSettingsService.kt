@@ -33,6 +33,7 @@ class VenueSettingsService(
         settings.themeDarkColor = request.themeDarkColor
         settings.themeLightColor = request.themeLightColor
         settings.googleReviewsUrl = request.googleReviewsUrl
+        settings.mapEmbedUrl = request.mapEmbedUrl
         settings.updatedAt = Instant.now()
         return repository.save(settings).toDto()
     }
@@ -54,6 +55,7 @@ class VenueSettingsService(
         themeDarkColor = themeDarkColor,
         themeLightColor = themeLightColor,
         googleReviewsUrl = googleReviewsUrl,
+        mapEmbedUrl = mapEmbedUrl,
         updatedAt = updatedAt,
     )
 }

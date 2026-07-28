@@ -33,4 +33,8 @@ class ApiExceptionHandler {
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleBadRequest(e: IllegalArgumentException) =
         ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse(e.message ?: "Bad request"))
+
+    @ExceptionHandler(TooManyRequestsException::class)
+    fun handleTooManyRequests(e: TooManyRequestsException) =
+        ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(ErrorResponse(e.message ?: "Too many requests"))
 }

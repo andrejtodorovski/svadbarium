@@ -55,6 +55,9 @@ class VenueSettings(
     @Column(name = "google_reviews_url")
     var googleReviewsUrl: String? = null,
 
+    @Column(name = "map_embed_url")
+    var mapEmbedUrl: String? = null,
+
     @Column(name = "updated_at")
     var updatedAt: Instant = Instant.now(),
 )

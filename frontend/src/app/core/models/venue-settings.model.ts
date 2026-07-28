@@ -15,6 +15,7 @@ export interface VenueSettings {
   themeDarkColor: string;
   themeLightColor: string;
   googleReviewsUrl: string | null;
+  mapEmbedUrl: string | null;
   updatedAt: string;
 }
 

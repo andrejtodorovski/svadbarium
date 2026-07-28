@@ -2,12 +2,37 @@
   class="site-nav"
   [class.site-nav--solid]="scrolled() || !transparentAtTop"
 >
-  <a routerLink="/" class="site-nav__brand venue-display-font">{{ venueName() }}</a>
+  <a routerLink="/" class="site-nav__brand venue-display-font" (click)="closeMobileMenu()">{{ venueName() }}</a>
   <span class="site-nav__spacer"></span>
-  <a mat-button routerLink="/" fragment="about" class="site-nav__link">За нас</a>
-  <a mat-button routerLink="/" fragment="gallery" class="site-nav__link">Галерија</a>
-  <a mat-button routerLink="/" fragment="reviews" class="site-nav__link">Искуства</a>
-  <a mat-button routerLink="/" fragment="contact" class="site-nav__link">Контакт</a>
-  <a mat-button routerLink="/calendar" routerLinkActive="is-active" class="site-nav__link">Достапност</a>
-  <a mat-button routerLink="/menu" routerLinkActive="is-active" class="site-nav__link">Мени</a>
+
+  <nav class="site-nav__links">
+    <a mat-button routerLink="/" fragment="about" class="site-nav__link">За нас</a>
+    <a mat-button routerLink="/" fragment="gallery" class="site-nav__link">Галерија</a>
+    <a mat-button routerLink="/" fragment="reviews" class="site-nav__link">Искуства</a>
+    <a mat-button routerLink="/" fragment="contact" class="site-nav__link">Контакт</a>
+    <a mat-button routerLink="/calendar" routerLinkActive="is-active" class="site-nav__link">Достапност</a>
+    <a mat-button routerLink="/menu" routerLinkActive="is-active" class="site-nav__link">Мени</a>
+  </nav>
+
+  <button
+    mat-icon-button
+    type="button"
+    class="site-nav__toggle"
+    (click)="toggleMobileMenu()"
+    [attr.aria-expanded]="mobileMenuOpen()"
+    aria-label="Мени"
+  >
+    <mat-icon>{{ mobileMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+  </button>
 </mat-toolbar>
+
+@if (mobileMenuOpen()) {
+  <nav class="site-nav__mobile-menu">
+    <a routerLink="/" fragment="about" (click)="closeMobileMenu()">За нас</a>
+    <a routerLink="/" fragment="gallery" (click)="closeMobileMenu()">Галерија</a>
+    <a routerLink="/" fragment="reviews" (click)="closeMobileMenu()">Искуства</a>
+    <a routerLink="/" fragment="contact" (click)="closeMobileMenu()">Контакт</a>
+    <a routerLink="/calendar" routerLinkActive="is-active" (click)="closeMobileMenu()">Достапност</a>
+    <a routerLink="/menu" routerLinkActive="is-active" (click)="closeMobileMenu()">Мени</a>
+  </nav>
+}

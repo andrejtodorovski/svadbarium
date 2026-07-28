@@ -2,8 +2,15 @@
 
 <section class="calendar-page">
   <h1 class="venue-display-font">Достапност</h1>
-  <p class="hint">Зелените датуми се слободни, црвените се веќе резервирани.</p>
-  <full-calendar [options]="calendarOptions"></full-calendar>
+  @if (loadFailed()) {
+    <app-load-error
+      message="Не успеавме да ја вчитаме достапноста. Проверете ја интернет врската и обидете се повторно."
+      (retry)="retry()"
+    />
+  } @else {
+    <p class="hint">Зелените датуми се слободни, црвените се веќе резервирани.</p>
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  }
 </section>
 
 <app-site-footer></app-site-footer>

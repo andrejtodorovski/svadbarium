@@ -21,6 +21,7 @@ import { SiteNavComponent } from '../site-nav/site-nav.component';
 import { SiteFooterComponent } from '../site-footer/site-footer.component';
 import { ScrollRevealDirective } from '../../shared/scroll-reveal.directive';
 import { GalleryLightboxComponent } from '../gallery-lightbox/gallery-lightbox.component';
+import { LoadErrorComponent } from '../../shared/load-error/load-error.component';
 
 @Component({
   selector: 'app-landing',
@@ -36,6 +37,7 @@ import { GalleryLightboxComponent } from '../gallery-lightbox/gallery-lightbox.c
     SiteNavComponent,
     SiteFooterComponent,
     ScrollRevealDirective,
+    LoadErrorComponent,
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
@@ -54,6 +56,11 @@ export class LandingComponent {
   readonly gallery = signal<GalleryImageMeta[]>([]);
   readonly reviews = signal<Review[]>([]);
   readonly sendingInquiry = signal(false);
+  // The whole page (hero/about/contact) is gated behind venueSettings() being non-null, so
+  // its failure is the one that can leave a visitor looking at a blank page — it gets a
+  // visible retry banner. Gallery/reviews are supplementary sections that already degrade
+  // gracefully (their @if just hides the section), so they only need a non-throwing handler.
+  readonly venueSettingsLoadFailed = signal(false);
 
   inquiryForm: InquiryRequest = { name: '', email: '', phone: null, eventDate: null, message: '' };
 
@@ -64,18 +71,36 @@ export class LandingComponent {
       this.fragment = fragment;
       this.scrollToFragment();
     });
-    this.venueSettingsService.getSettings().subscribe((settings) => {
-      this.venueSettings.set(settings);
-      this.scrollToFragment();
+    this.loadVenueSettings();
+    this.galleryService.list().subscribe({
+      next: (images) => {
+        this.gallery.set(images);
+        this.scrollToFragment();
+      },
+      error: () => {},
     });
-    this.galleryService.list().subscribe((images) => {
-      this.gallery.set(images);
-      this.scrollToFragment();
+    this.reviewService.list().subscribe({
+      next: (reviews) => {
+        this.reviews.set(reviews.slice(0, 3));
+        this.scrollToFragment();
+      },
+      error: () => {},
     });
-    this.reviewService.list().subscribe((reviews) => {
-      this.reviews.set(reviews.slice(0, 3));
-      this.scrollToFragment();
+  }
+
+  private loadVenueSettings(): void {
+    this.venueSettingsLoadFailed.set(false);
+    this.venueSettingsService.getSettings().subscribe({
+      next: (settings) => {
+        this.venueSettings.set(settings);
+        this.scrollToFragment();
+      },
+      error: () => this.venueSettingsLoadFailed.set(true),
     });
+  }
+
+  retryVenueSettings(): void {
+    this.loadVenueSettings();
   }
 
   // Sections are gated behind async data (@if venueSettings()/gallery()/reviews()), so the
@@ -131,9 +156,12 @@ export class LandingComponent {
   }
 
   mapEmbedUrl(settings: VenueSettings): SafeResourceUrl | null {
-    // Precise coordinates win when set; otherwise fall back to the address text — same
-    // keyless maps.google.com/maps?q=...&output=embed pattern the reference site uses,
-    // so a venue doesn't need lat/lng (no admin field for that) to get a map.
+    // The admin-pasted Google "Share > Embed a map" src wins when set — exact pin/zoom/view
+    // control a plain address query can't match. Otherwise fall back to a keyless
+    // maps.google.com/maps?q=...&output=embed query built from lat/lng or the address text.
+    if (settings.mapEmbedUrl) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(settings.mapEmbedUrl);
+    }
     const query =
       settings.latitude != null && settings.longitude != null
         ? `${settings.latitude},${settings.longitude}`

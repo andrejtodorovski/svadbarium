@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/angular/daygrid';
 import breezyThemePlugin from '@fullcalendar/angular/themes/breezy';
@@ -10,17 +10,21 @@ const MK_WEEKDAY_ABBREVIATIONS = ['Нед', 'Пон', 'Вто', 'Сре', 'Че�
 import { AvailabilityService } from '../../core/services/availability.service';
 import { SiteNavComponent } from '../site-nav/site-nav.component';
 import { SiteFooterComponent } from '../site-footer/site-footer.component';
+import { LoadErrorComponent } from '../../shared/load-error/load-error.component';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [FullCalendarModule, SiteNavComponent, SiteFooterComponent],
+  imports: [FullCalendarModule, SiteNavComponent, SiteFooterComponent, LoadErrorComponent],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent {
   private readonly availabilityService = inject(AvailabilityService);
   private unavailableDates = new Set<string>();
+  private lastRange: { from: string; to: string } | null = null;
+
+  readonly loadFailed = signal(false);
 
   @ViewChild(FullCalendarComponent) private calendarComponent?: FullCalendarComponent;
 
@@ -36,14 +40,28 @@ export class CalendarComponent {
   };
 
   private onDatesSet(info: DatesSetInfo): void {
-    const from = this.toIsoDate(info.start);
-    const to = this.toIsoDate(info.end);
-    this.availabilityService.getUnavailable(from, to).subscribe((dates) => {
-      this.unavailableDates = new Set(dates.map((d) => d.date));
-      // Reassigning [options] alone doesn't make FullCalendar v7 re-invoke dayCellClass for
-      // already-rendered cells — an explicit re-render via the Calendar API is required.
-      this.calendarComponent?.getApi().render();
+    this.lastRange = { from: this.toIsoDate(info.start), to: this.toIsoDate(info.end) };
+    this.fetchAvailability();
+  }
+
+  private fetchAvailability(): void {
+    if (!this.lastRange) {
+      return;
+    }
+    this.loadFailed.set(false);
+    this.availabilityService.getUnavailable(this.lastRange.from, this.lastRange.to).subscribe({
+      next: (dates) => {
+        this.unavailableDates = new Set(dates.map((d) => d.date));
+        // Reassigning [options] alone doesn't make FullCalendar v7 re-invoke dayCellClass for
+        // already-rendered cells — an explicit re-render via the Calendar API is required.
+        this.calendarComponent?.getApi().render();
+      },
+      error: () => this.loadFailed.set(true),
     });
+  }
+
+  retry(): void {
+    this.fetchAvailability();
   }
 
   // FullCalendar's day-cell dates are local-midnight Date objects, not UTC-anchored — reading them

@@ -9,3 +9,5 @@ class NotFoundException(message: String) : RuntimeException(message)
 class UnsupportedFileTypeException(message: String) : RuntimeException(message)
 
 class FileTooLargeException(message: String) : RuntimeException(message)
+
+class TooManyRequestsException(message: String) : RuntimeException(message)

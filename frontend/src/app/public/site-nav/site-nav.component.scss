@@ -25,6 +25,11 @@
     flex: 1 1 auto;
   }
 
+  &__links {
+    display: flex;
+    align-items: center;
+  }
+
   &__link {
     // Material's own ".mat-toolbar .mat-mdc-button-base..." rule sets this same token at
     // higher specificity (it repeats a class to boost itself), so overriding the color
@@ -37,5 +42,50 @@
       --mdc-text-button-label-text-color: var(--venue-primary-light) !important;
       color: var(--venue-primary-light);
     }
+  }
+
+  &__toggle {
+    display: none;
+    color: var(--venue-light) !important;
+  }
+}
+
+.site-nav__mobile-menu {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: var(--venue-dark);
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 1.25rem 0.75rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+
+  a {
+    color: var(--venue-on-dark-soft);
+    text-decoration: none;
+    padding: 0.85rem 0.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+
+    &.is-active {
+      color: var(--venue-primary-light);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .site-nav__links {
+    display: none;
+  }
+
+  .site-nav__toggle {
+    display: inline-flex;
   }
 }

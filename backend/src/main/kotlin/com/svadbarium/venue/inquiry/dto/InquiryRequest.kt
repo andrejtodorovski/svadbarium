@@ -2,12 +2,13 @@ package com.svadbarium.venue.inquiry.dto
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Size
 import java.time.LocalDate
 
 data class InquiryRequest(
-    @field:NotBlank val name: String,
-    @field:NotBlank @field:Email val email: String,
-    val phone: String?,
+    @field:NotBlank @field:Size(max = 200) val name: String,
+    @field:NotBlank @field:Email @field:Size(max = 200) val email: String,
+    @field:Size(max = 50) val phone: String?,
     val eventDate: LocalDate?,
-    @field:NotBlank val message: String,
+    @field:NotBlank @field:Size(max = 5000) val message: String,
 )

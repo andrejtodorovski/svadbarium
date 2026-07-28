@@ -1,0 +1,14 @@
+.load-error {
+  max-width: 32rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px solid color-mix(in srgb, var(--venue-ink) 20%, transparent 80%);
+  border-radius: 4px;
+  background: var(--venue-cream-soft);
+
+  &__message {
+    margin: 0 0 1rem;
+    color: var(--venue-ink-soft);
+  }
+}

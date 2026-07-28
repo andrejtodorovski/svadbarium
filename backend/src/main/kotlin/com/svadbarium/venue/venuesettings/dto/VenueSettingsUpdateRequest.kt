@@ -24,4 +24,9 @@ data class VenueSettingsUpdateRequest(
     val themeLightColor: String,
     @field:Pattern(regexp = "^$|^https?://.+", message = "must be a full http(s) URL")
     val googleReviewsUrl: String?,
+    @field:Pattern(
+        regexp = "^$|^https://www\\.google\\.com/maps/embed.*",
+        message = "must be the src URL from Google Maps' Share > Embed a map option",
+    )
+    val mapEmbedUrl: String?,
 )

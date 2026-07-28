@@ -3,7 +3,9 @@
 <section class="menu-page">
   <h1 class="venue-display-font">Мени</h1>
 
-  @if (menus().length === 0) {
+  @if (loadFailed()) {
+    <app-load-error (retry)="retry()" />
+  } @else if (menus().length === 0) {
     <p class="empty">Сè уште нема поставено мени.</p>
   }
 

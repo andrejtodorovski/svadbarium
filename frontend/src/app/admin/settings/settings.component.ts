@@ -61,6 +61,7 @@ export class SettingsComponent {
         themeDarkColor: current.themeDarkColor,
         themeLightColor: current.themeLightColor,
         googleReviewsUrl: current.googleReviewsUrl,
+        mapEmbedUrl: current.mapEmbedUrl,
       })
       .subscribe({
         next: (updated) => {

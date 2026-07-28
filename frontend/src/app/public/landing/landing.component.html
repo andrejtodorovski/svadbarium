@@ -24,6 +24,14 @@
     </svg>
   </div>
 
+  @if (venueSettingsLoadFailed()) {
+    <div class="hero__content">
+      <app-load-error
+        message="Не успеавме да ги вчитаме податоците за просторот. Проверете ја интернет врската и обидете се повторно."
+        (retry)="retryVenueSettings()"
+      />
+    </div>
+  }
   @if (venueSettings(); as settings) {
     <div class="hero__content">
       @if (settings.address) {
@@ -196,7 +204,7 @@
 
         @if (mapEmbedUrl(settings); as mapUrl) {
           <div class="map-embed">
-            <iframe title="Мапа на локацијата" [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe title="Мапа на локацијата" [src]="mapUrl" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         }
       </div>
