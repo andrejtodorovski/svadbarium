@@ -52,6 +52,9 @@ class VenueSettings(
     @Column(name = "theme_light_color")
     var themeLightColor: String = "#F7F2E7",
 
+    @Column(name = "google_reviews_url")
+    var googleReviewsUrl: String? = null,
+
     @Column(name = "updated_at")
     var updatedAt: Instant = Instant.now(),
 )

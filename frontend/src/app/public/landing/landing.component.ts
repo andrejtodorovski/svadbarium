@@ -90,11 +90,22 @@ export class LandingComponent {
   }
 
   mapEmbedUrl(settings: VenueSettings): SafeResourceUrl | null {
-    if (settings.latitude == null || settings.longitude == null) {
+    // Precise coordinates win when set; otherwise fall back to the address text — same
+    // keyless maps.google.com/maps?q=...&output=embed pattern the reference site uses,
+    // so a venue doesn't need lat/lng (no admin field for that) to get a map.
+    const query =
+      settings.latitude != null && settings.longitude != null
+        ? `${settings.latitude},${settings.longitude}`
+        : settings.address;
+    if (!query) {
       return null;
     }
-    const url = `https://maps.google.com/maps?q=${settings.latitude},${settings.longitude}&z=15&output=embed`;
+    const url = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=15&output=embed`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  viberUrl(phone: string): string {
+    return `viber://chat?number=${encodeURIComponent(phone.replace(/[^\d+]/g, ''))}`;
   }
 
   submitInquiry(form: NgForm): void {

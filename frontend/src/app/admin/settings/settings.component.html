@@ -55,6 +55,13 @@
       </mat-form-field>
     </div>
 
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Google Reviews URL</mat-label>
+      <input matInput name="googleReviewsUrl" [(ngModel)]="s.googleReviewsUrl"
+        placeholder="https://g.page/r/..." />
+      <mat-hint>Link to your venue's Google Maps listing — shown as a "Read our reviews" button</mat-hint>
+    </mat-form-field>
+
     <h2 class="section-heading venue-display-font">Brand Colors</h2>
     <p class="section-hint">These drive the public site's look — hero background, section colors,
       buttons and accents.</p>

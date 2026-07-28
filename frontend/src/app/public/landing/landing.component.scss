@@ -305,6 +305,13 @@ $pad: clamp(1.25rem, 4vw, 3rem);
   }
 }
 
+.contact__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
 .contact-form {
   background: var(--venue-light);
   padding: clamp(1.75rem, 3vw, 2.75rem);

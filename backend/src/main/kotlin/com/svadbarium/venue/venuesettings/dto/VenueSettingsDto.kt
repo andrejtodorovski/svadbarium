@@ -18,5 +18,6 @@ data class VenueSettingsDto(
     val themePrimaryColor: String,
     val themeDarkColor: String,
     val themeLightColor: String,
+    val googleReviewsUrl: String?,
     val updatedAt: Instant,
 )

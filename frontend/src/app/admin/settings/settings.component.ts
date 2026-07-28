@@ -60,6 +60,7 @@ export class SettingsComponent {
         themePrimaryColor: current.themePrimaryColor,
         themeDarkColor: current.themeDarkColor,
         themeLightColor: current.themeLightColor,
+        googleReviewsUrl: current.googleReviewsUrl,
       })
       .subscribe({
         next: (updated) => {

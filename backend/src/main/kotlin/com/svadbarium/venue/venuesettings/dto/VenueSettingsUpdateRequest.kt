@@ -22,4 +22,6 @@ data class VenueSettingsUpdateRequest(
     val themeDarkColor: String,
     @field:Pattern(regexp = HEX_COLOR_PATTERN, message = "must be a hex color like #F7F2E7")
     val themeLightColor: String,
+    @field:Pattern(regexp = "^$|^https?://.+", message = "must be a full http(s) URL")
+    val googleReviewsUrl: String?,
 )

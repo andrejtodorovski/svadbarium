@@ -158,6 +158,17 @@
             <iframe title="Venue location map" [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         }
+
+        @if (settings.contactPhone || settings.googleReviewsUrl) {
+          <div class="contact__actions">
+            @if (settings.contactPhone) {
+              <a mat-stroked-button class="hero__ghost-btn" [href]="viberUrl(settings.contactPhone)">Chat on Viber</a>
+            }
+            @if (settings.googleReviewsUrl) {
+              <a mat-stroked-button class="hero__ghost-btn" [href]="settings.googleReviewsUrl" target="_blank" rel="noopener">Read our reviews</a>
+            }
+          </div>
+        }
       </div>
 
       <form class="contact-form" appScrollReveal (ngSubmit)="submitInquiry(inquiryNgForm)" #inquiryNgForm="ngForm">
