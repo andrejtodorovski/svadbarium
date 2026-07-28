@@ -1,0 +1,42 @@
+<h1 class="venue-display-font">Enquiries</h1>
+
+<label class="hide-handled">
+  <mat-checkbox [checked]="hideHandled()" (change)="hideHandled.set($event.checked)"></mat-checkbox>
+  Hide handled
+</label>
+
+@if (visibleInquiries().length === 0) {
+  <p class="empty">No enquiries to show.</p>
+}
+
+<div class="inquiry-list">
+  @for (inquiry of visibleInquiries(); track inquiry.id) {
+    <div class="inquiry-row" [class.inquiry-row--handled]="inquiry.handled">
+      <div class="inquiry-row__main">
+        <p class="inquiry-row__name">
+          {{ inquiry.name }}
+          <span class="inquiry-row__date">{{ inquiry.createdAt | date: 'medium' }}</span>
+        </p>
+        <p class="inquiry-row__contact">
+          <a [href]="'mailto:' + inquiry.email">{{ inquiry.email }}</a>
+          @if (inquiry.phone) {
+            <a [href]="'tel:' + inquiry.phone">{{ inquiry.phone }}</a>
+          }
+          @if (inquiry.eventDate) {
+            <span>Event: {{ inquiry.eventDate }}</span>
+          }
+        </p>
+        <p class="inquiry-row__message">{{ inquiry.message }}</p>
+      </div>
+      <div class="inquiry-row__actions">
+        <label>
+          <mat-checkbox [checked]="inquiry.handled" (change)="toggleHandled(inquiry)"></mat-checkbox>
+          Handled
+        </label>
+        <button mat-icon-button (click)="delete(inquiry.id)" aria-label="Delete enquiry">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

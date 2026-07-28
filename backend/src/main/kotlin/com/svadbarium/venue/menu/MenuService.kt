@@ -4,6 +4,7 @@ import com.svadbarium.venue.common.dto.FileContent
 import com.svadbarium.venue.common.dto.ReorderItem
 import com.svadbarium.venue.common.exception.NotFoundException
 import com.svadbarium.venue.common.file.FileValidationUtil
+import com.svadbarium.venue.common.file.ImageResizeUtil
 import com.svadbarium.venue.menu.dto.MenuFileDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile
 class MenuService(
     private val repository: MenuFileRepository,
     private val fileValidationUtil: FileValidationUtil,
+    private val imageResizeUtil: ImageResizeUtil,
 ) {
     fun list(): List<MenuFileDto> = repository.findAllByOrderBySortOrderAsc().map { it.toDto() }
 
@@ -25,10 +27,11 @@ class MenuService(
     fun upload(file: MultipartFile, title: String?): MenuFileDto {
         fileValidationUtil.validateMenuFile(file)
         val nextSortOrder = (repository.findAllByOrderBySortOrderAsc().maxOfOrNull { it.sortOrder } ?: -1) + 1
+        val fileData = imageResizeUtil.resizeIfNeeded(file.bytes, file.contentType!!)
         val menuFile = MenuFile(
-            fileData = file.bytes,
+            fileData = fileData,
             contentType = file.contentType!!,
-            fileSize = file.size.toInt(),
+            fileSize = fileData.size,
             title = title,
             sortOrder = nextSortOrder,
         )

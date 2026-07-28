@@ -4,6 +4,7 @@ import com.svadbarium.venue.common.dto.FileContent
 import com.svadbarium.venue.common.dto.ReorderItem
 import com.svadbarium.venue.common.exception.NotFoundException
 import com.svadbarium.venue.common.file.FileValidationUtil
+import com.svadbarium.venue.common.file.ImageResizeUtil
 import com.svadbarium.venue.gallery.dto.GalleryImageDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile
 class GalleryService(
     private val repository: GalleryImageRepository,
     private val fileValidationUtil: FileValidationUtil,
+    private val imageResizeUtil: ImageResizeUtil,
 ) {
     fun list(): List<GalleryImageDto> = repository.findAllByOrderBySortOrderAsc().map { it.toDto() }
 
@@ -25,10 +27,11 @@ class GalleryService(
     fun upload(file: MultipartFile, caption: String?): GalleryImageDto {
         fileValidationUtil.validateImage(file)
         val nextSortOrder = (repository.findAllByOrderBySortOrderAsc().maxOfOrNull { it.sortOrder } ?: -1) + 1
+        val fileData = imageResizeUtil.resizeIfNeeded(file.bytes, file.contentType!!)
         val image = GalleryImage(
-            fileData = file.bytes,
+            fileData = fileData,
             contentType = file.contentType!!,
-            fileSize = file.size.toInt(),
+            fileSize = fileData.size,
             caption = caption,
             sortOrder = nextSortOrder,
         )
