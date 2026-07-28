@@ -13,10 +13,29 @@
     <div cdkDrag class="image-row">
       <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
       <img [src]="fileUrl(image.id)" [alt]="image.caption || 'Gallery photo'" />
-      <span class="caption-text">{{ image.caption || '(no caption)' }}</span>
-      <button mat-icon-button (click)="delete(image.id)" aria-label="Delete photo">
-        <mat-icon>delete</mat-icon>
-      </button>
+      @if (editingId() === image.id) {
+        <input
+          type="text"
+          class="caption-edit-input"
+          [(ngModel)]="editCaption"
+          name="editCaption"
+          placeholder="Caption (optional)"
+        />
+        <button mat-icon-button (click)="saveCaption(image.id)" aria-label="Save caption">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button (click)="cancelEdit()" aria-label="Cancel">
+          <mat-icon>close</mat-icon>
+        </button>
+      } @else {
+        <span class="caption-text">{{ image.caption || '(no caption)' }}</span>
+        <button mat-icon-button (click)="startEdit(image)" aria-label="Edit caption">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="delete(image.id)" aria-label="Delete photo">
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
     </div>
   }
 </div>

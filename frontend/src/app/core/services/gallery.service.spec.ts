@@ -64,6 +64,15 @@ describe('GalleryService', () => {
     req.flush(null);
   });
 
+  it('sends a caption update as a PUT to the item URL', () => {
+    service.updateCaption(9, 'New caption').subscribe();
+
+    const req = httpMock.expectOne('/api/admin/gallery/9');
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual({ caption: 'New caption' });
+    req.flush({ id: 9, caption: 'New caption', sortOrder: 0, contentType: 'image/jpeg' });
+  });
+
   it('sends a delete request for the given image id', () => {
     service.delete(7).subscribe();
 

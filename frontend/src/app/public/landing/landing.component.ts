@@ -20,7 +20,7 @@ import { Review } from '../../core/models/review.model';
 import { SiteNavComponent } from '../site-nav/site-nav.component';
 import { SiteFooterComponent } from '../site-footer/site-footer.component';
 import { ScrollRevealDirective } from '../../shared/scroll-reveal.directive';
-import { GalleryLightboxComponent } from '../gallery-lightbox/gallery-lightbox.component';
+import { GalleryLightboxComponent, GalleryLightboxImage } from '../gallery-lightbox/gallery-lightbox.component';
 import { LoadErrorComponent } from '../../shared/load-error/load-error.component';
 
 @Component({
@@ -148,8 +148,13 @@ export class LandingComponent {
   }
 
   openLightbox(image: GalleryImageMeta): void {
+    const images: GalleryLightboxImage[] = this.gallery().map((img) => ({
+      src: this.fileUrl(img.id),
+      caption: img.caption,
+    }));
+    const startIndex = this.gallery().findIndex((img) => img.id === image.id);
     this.dialog.open(GalleryLightboxComponent, {
-      data: { src: this.fileUrl(image.id), caption: image.caption },
+      data: { images, startIndex: startIndex === -1 ? 0 : startIndex },
       panelClass: 'lightbox-panel',
       maxWidth: '95vw',
     });

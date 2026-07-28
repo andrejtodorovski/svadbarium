@@ -39,6 +39,13 @@ class GalleryService(
     }
 
     @Transactional
+    fun updateCaption(id: Long, caption: String?): GalleryImageDto {
+        val image = repository.findById(id).orElseThrow { NotFoundException("Gallery image $id not found") }
+        image.caption = caption
+        return repository.save(image).toDto()
+    }
+
+    @Transactional
     fun reorder(items: List<ReorderItem>) {
         val images = repository.findAllById(items.map { it.id }).associateBy { it.id }
         items.forEach { item ->

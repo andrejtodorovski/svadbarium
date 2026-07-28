@@ -1,11 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 import { GalleryService } from '../../core/services/gallery.service';
 import { GalleryImageMeta } from '../../core/models/gallery-image.model';
+import { ReorderItem } from '../../core/models/reorder-item.model';
+import { FileMetadataListBase } from '../shared/file-metadata-list.base';
 
 @Component({
   selector: 'app-admin-gallery',
@@ -14,64 +17,56 @@ import { GalleryImageMeta } from '../../core/models/gallery-image.model';
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
 })
-export class GalleryComponent {
+export class GalleryComponent extends FileMetadataListBase<GalleryImageMeta> {
   private readonly galleryService = inject(GalleryService);
-  private readonly snackBar = inject(MatSnackBar);
+  protected readonly snackBar = inject(MatSnackBar);
+  protected readonly uploadedMessage = 'Photo uploaded';
+  protected readonly editFailedMessage = 'Failed to update caption';
+  protected readonly deleteConfirmMessage = 'Delete this photo?';
 
-  readonly images = signal<GalleryImageMeta[]>([]);
-  readonly uploading = signal(false);
+  readonly images = this.items;
   caption = '';
-  selectedFile: File | null = null;
+  editCaption = '';
 
   constructor() {
+    super();
     this.refresh();
   }
 
-  private refresh(): void {
-    this.galleryService.list().subscribe((images) => this.images.set(images));
+  protected fetchList(): Observable<GalleryImageMeta[]> {
+    return this.galleryService.list();
+  }
+
+  protected uploadFile(file: File, value: string | null): Observable<GalleryImageMeta> {
+    return this.galleryService.upload(file, value);
+  }
+
+  protected updateField(id: number, value: string | null): Observable<GalleryImageMeta> {
+    return this.galleryService.updateCaption(id, value);
+  }
+
+  protected reorderItems(items: ReorderItem[]): Observable<void> {
+    return this.galleryService.reorder(items);
+  }
+
+  protected deleteItem(id: number): Observable<void> {
+    return this.galleryService.delete(id);
   }
 
   fileUrl(id: number): string {
     return this.galleryService.fileUrl(id);
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.selectedFile = input.files?.[0] ?? null;
-  }
-
   upload(): void {
-    if (!this.selectedFile) {
-      return;
-    }
-    this.uploading.set(true);
-    this.galleryService.upload(this.selectedFile, this.caption || null).subscribe({
-      next: () => {
-        this.uploading.set(false);
-        this.caption = '';
-        this.selectedFile = null;
-        this.refresh();
-        this.snackBar.open('Photo uploaded', 'Dismiss', { duration: 3000 });
-      },
-      error: (err) => {
-        this.uploading.set(false);
-        this.snackBar.open(err?.error?.message || 'Upload failed', 'Dismiss', { duration: 4000 });
-      },
-    });
+    this.performUpload(this.caption || null, () => (this.caption = ''));
   }
 
-  drop(event: CdkDragDrop<GalleryImageMeta[]>): void {
-    const current = [...this.images()];
-    moveItemInArray(current, event.previousIndex, event.currentIndex);
-    this.images.set(current);
-    const reorderItems = current.map((image, index) => ({ id: image.id, sortOrder: index }));
-    this.galleryService.reorder(reorderItems).subscribe();
+  override startEdit(image: GalleryImageMeta): void {
+    super.startEdit(image);
+    this.editCaption = image.caption ?? '';
   }
 
-  delete(id: number): void {
-    if (!confirm('Delete this photo?')) {
-      return;
-    }
-    this.galleryService.delete(id).subscribe(() => this.refresh());
+  saveCaption(id: number): void {
+    this.performSave(id, this.editCaption || null);
   }
 }

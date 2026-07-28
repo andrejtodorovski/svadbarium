@@ -1,0 +1,91 @@
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  max-width: 720px;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: white;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &--highlight {
+    border-color: rgba(184, 146, 63, 0.5);
+    background: rgba(184, 146, 63, 0.08);
+  }
+
+  &__value {
+    font-size: 2rem;
+    font-family: "Cormorant Garamond", Georgia, serif;
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.view-site-btn {
+  margin-bottom: 2.5rem;
+}
+
+.section-heading {
+  font-size: 1.4rem;
+  margin: 0 0 1rem;
+}
+
+.empty {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.recent-list {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recent-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  background: white;
+  text-decoration: none;
+  color: inherit;
+
+  &__name {
+    flex: 1;
+    font-weight: 600;
+  }
+
+  &__date {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  &__badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(184, 146, 63, 0.2);
+    color: #8a6a2a;
+  }
+}

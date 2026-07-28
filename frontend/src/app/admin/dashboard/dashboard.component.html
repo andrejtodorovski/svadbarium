@@ -1,0 +1,40 @@
+<h1 class="venue-display-font">Dashboard</h1>
+
+<div class="stat-grid">
+  <a routerLink="/admin/inquiries" class="stat-card" [class.stat-card--highlight]="unhandledCount() > 0">
+    <span class="stat-card__value">{{ unhandledCount() }}</span>
+    <span class="stat-card__label">Unhandled enquiries</span>
+  </a>
+  <a routerLink="/admin/gallery" class="stat-card">
+    <span class="stat-card__value">{{ galleryCount() ?? '—' }}</span>
+    <span class="stat-card__label">Gallery photos</span>
+  </a>
+  <a routerLink="/admin/menus" class="stat-card">
+    <span class="stat-card__value">{{ menuCount() ?? '—' }}</span>
+    <span class="stat-card__label">Menu files</span>
+  </a>
+  <a routerLink="/admin/reviews" class="stat-card">
+    <span class="stat-card__value">{{ reviewCount() ?? '—' }}</span>
+    <span class="stat-card__label">Reviews</span>
+  </a>
+</div>
+
+<a mat-flat-button color="primary" href="/" target="_blank" class="view-site-btn">View public site</a>
+
+<h2 class="venue-display-font section-heading">Recent enquiries</h2>
+
+@if (recentInquiries().length === 0) {
+  <p class="empty">No enquiries yet.</p>
+} @else {
+  <div class="recent-list">
+    @for (inquiry of recentInquiries(); track inquiry.id) {
+      <a routerLink="/admin/inquiries" class="recent-row">
+        <span class="recent-row__name">{{ inquiry.name }}</span>
+        <span class="recent-row__date">{{ inquiry.createdAt | date: 'mediumDate' }}</span>
+        @if (!inquiry.handled) {
+          <span class="recent-row__badge">New</span>
+        }
+      </a>
+    }
+  </div>
+}

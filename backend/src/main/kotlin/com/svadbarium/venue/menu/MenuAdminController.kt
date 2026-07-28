@@ -2,6 +2,7 @@ package com.svadbarium.venue.menu
 
 import com.svadbarium.venue.common.dto.ReorderItem
 import com.svadbarium.venue.menu.dto.MenuFileDto
+import com.svadbarium.venue.menu.dto.TitleUpdateRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -32,6 +33,10 @@ class MenuAdminController(
         service.reorder(items)
         return ResponseEntity.noContent().build()
     }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody request: TitleUpdateRequest): MenuFileDto =
+        service.updateTitle(id, request.title)
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> {

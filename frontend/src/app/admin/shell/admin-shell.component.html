@@ -8,6 +8,13 @@
 <mat-sidenav-container class="admin-container">
   <mat-sidenav mode="side" opened class="admin-sidenav">
     <mat-nav-list>
+      <a
+        mat-list-item
+        routerLink="/admin"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Dashboard</a
+      >
       <a mat-list-item routerLink="/admin/settings" routerLinkActive="active-link">Venue Settings</a>
       <a mat-list-item routerLink="/admin/gallery" routerLinkActive="active-link">Gallery</a>
       <a mat-list-item routerLink="/admin/reviews" routerLinkActive="active-link">Reviews</a>

@@ -1,11 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 import { MenuService } from '../../core/services/menu.service';
 import { MenuFileMeta } from '../../core/models/menu-file.model';
+import { ReorderItem } from '../../core/models/reorder-item.model';
+import { FileMetadataListBase } from '../shared/file-metadata-list.base';
 
 @Component({
   selector: 'app-admin-menus',
@@ -14,21 +17,40 @@ import { MenuFileMeta } from '../../core/models/menu-file.model';
   templateUrl: './menus.component.html',
   styleUrl: './menus.component.scss',
 })
-export class MenusComponent {
+export class MenusComponent extends FileMetadataListBase<MenuFileMeta> {
   private readonly menuService = inject(MenuService);
-  private readonly snackBar = inject(MatSnackBar);
+  protected readonly snackBar = inject(MatSnackBar);
+  protected readonly uploadedMessage = 'Menu file uploaded';
+  protected readonly editFailedMessage = 'Failed to update title';
+  protected readonly deleteConfirmMessage = 'Delete this menu file?';
 
-  readonly menus = signal<MenuFileMeta[]>([]);
-  readonly uploading = signal(false);
+  readonly menus = this.items;
   title = '';
-  selectedFile: File | null = null;
+  editTitle = '';
 
   constructor() {
+    super();
     this.refresh();
   }
 
-  private refresh(): void {
-    this.menuService.list().subscribe((menus) => this.menus.set(menus));
+  protected fetchList(): Observable<MenuFileMeta[]> {
+    return this.menuService.list();
+  }
+
+  protected uploadFile(file: File, value: string | null): Observable<MenuFileMeta> {
+    return this.menuService.upload(file, value);
+  }
+
+  protected updateField(id: number, value: string | null): Observable<MenuFileMeta> {
+    return this.menuService.updateTitle(id, value);
+  }
+
+  protected reorderItems(items: ReorderItem[]): Observable<void> {
+    return this.menuService.reorder(items);
+  }
+
+  protected deleteItem(id: number): Observable<void> {
+    return this.menuService.delete(id);
   }
 
   fileUrl(id: number): string {
@@ -39,43 +61,16 @@ export class MenusComponent {
     return contentType.startsWith('image/');
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.selectedFile = input.files?.[0] ?? null;
-  }
-
   upload(): void {
-    if (!this.selectedFile) {
-      return;
-    }
-    this.uploading.set(true);
-    this.menuService.upload(this.selectedFile, this.title || null).subscribe({
-      next: () => {
-        this.uploading.set(false);
-        this.title = '';
-        this.selectedFile = null;
-        this.refresh();
-        this.snackBar.open('Menu file uploaded', 'Dismiss', { duration: 3000 });
-      },
-      error: (err) => {
-        this.uploading.set(false);
-        this.snackBar.open(err?.error?.message || 'Upload failed', 'Dismiss', { duration: 4000 });
-      },
-    });
+    this.performUpload(this.title || null, () => (this.title = ''));
   }
 
-  drop(event: CdkDragDrop<MenuFileMeta[]>): void {
-    const current = [...this.menus()];
-    moveItemInArray(current, event.previousIndex, event.currentIndex);
-    this.menus.set(current);
-    const reorderItems = current.map((menu, index) => ({ id: menu.id, sortOrder: index }));
-    this.menuService.reorder(reorderItems).subscribe();
+  override startEdit(menu: MenuFileMeta): void {
+    super.startEdit(menu);
+    this.editTitle = menu.title ?? '';
   }
 
-  delete(id: number): void {
-    if (!confirm('Delete this menu file?')) {
-      return;
-    }
-    this.menuService.delete(id).subscribe(() => this.refresh());
+  saveTitle(id: number): void {
+    this.performSave(id, this.editTitle || null);
   }
 }

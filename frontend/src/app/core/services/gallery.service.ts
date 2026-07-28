@@ -1,15 +1,12 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GalleryImageMeta } from '../models/gallery-image.model';
-import { ReorderItem } from '../models/reorder-item.model';
+import { ReorderableCrudService } from './reorderable-crud.service';
 
 @Injectable({ providedIn: 'root' })
-export class GalleryService {
-  private readonly http = inject(HttpClient);
-
-  list(): Observable<GalleryImageMeta[]> {
-    return this.http.get<GalleryImageMeta[]>('/api/gallery');
+export class GalleryService extends ReorderableCrudService<GalleryImageMeta> {
+  constructor() {
+    super('/api/gallery', '/api/admin/gallery');
   }
 
   fileUrl(id: number): string {
@@ -17,20 +14,10 @@ export class GalleryService {
   }
 
   upload(file: File, caption: string | null): Observable<GalleryImageMeta> {
-    const formData = new FormData();
-    formData.append('file', file);
-    let params = new HttpParams();
-    if (caption) {
-      params = params.set('caption', caption);
-    }
-    return this.http.post<GalleryImageMeta>('/api/admin/gallery', formData, { params });
+    return this.uploadFile(file, 'caption', caption);
   }
 
-  reorder(items: ReorderItem[]): Observable<void> {
-    return this.http.put<void>('/api/admin/gallery/reorder', items);
-  }
-
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/admin/gallery/${id}`);
+  updateCaption(id: number, caption: string | null): Observable<GalleryImageMeta> {
+    return this.updateField(id, 'caption', caption);
   }
 }

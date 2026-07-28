@@ -39,6 +39,13 @@ class MenuService(
     }
 
     @Transactional
+    fun updateTitle(id: Long, title: String?): MenuFileDto {
+        val menuFile = repository.findById(id).orElseThrow { NotFoundException("Menu file $id not found") }
+        menuFile.title = title
+        return repository.save(menuFile).toDto()
+    }
+
+    @Transactional
     fun reorder(items: List<ReorderItem>) {
         val files = repository.findAllById(items.map { it.id }).associateBy { it.id }
         items.forEach { item ->

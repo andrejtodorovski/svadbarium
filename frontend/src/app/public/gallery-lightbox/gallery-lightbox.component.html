@@ -1,7 +1,17 @@
 <button mat-icon-button class="lightbox-close" (click)="close()" aria-label="Затвори">
   <mat-icon>close</mat-icon>
 </button>
-<img [src]="data.src" [alt]="data.caption || 'Фотографија од просторот'" class="lightbox-image" />
-@if (data.caption) {
-  <p class="lightbox-caption venue-display-font">{{ data.caption }}</p>
+
+@if (hasMultiple) {
+  <button mat-icon-button class="lightbox-nav lightbox-nav--prev" (click)="previous()" aria-label="Претходна фотографија">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-icon-button class="lightbox-nav lightbox-nav--next" (click)="next()" aria-label="Следна фотографија">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+}
+
+<img [src]="current().src" [alt]="current().caption || 'Фотографија од просторот'" class="lightbox-image" />
+@if (current().caption) {
+  <p class="lightbox-caption venue-display-font">{{ current().caption }}</p>
 }

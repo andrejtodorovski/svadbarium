@@ -23,7 +23,11 @@ export const routes: Routes = [
     canActivate: [adminGuard],
     loadComponent: () => import('./admin/shell/admin-shell.component').then((m) => m.AdminShellComponent),
     children: [
-      { path: '', redirectTo: 'settings', pathMatch: 'full' },
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () => import('./admin/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
       {
         path: 'settings',
         loadComponent: () => import('./admin/settings/settings.component').then((m) => m.SettingsComponent),

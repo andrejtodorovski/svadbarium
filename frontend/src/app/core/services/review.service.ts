@@ -1,30 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Review, ReviewRequest } from '../models/review.model';
-import { ReorderItem } from '../models/reorder-item.model';
+import { ReorderableCrudService } from './reorderable-crud.service';
 
 @Injectable({ providedIn: 'root' })
-export class ReviewService {
-  private readonly http = inject(HttpClient);
-
-  list(): Observable<Review[]> {
-    return this.http.get<Review[]>('/api/reviews');
+export class ReviewService extends ReorderableCrudService<Review> {
+  constructor() {
+    super('/api/reviews', '/api/admin/reviews');
   }
 
   create(request: ReviewRequest): Observable<Review> {
-    return this.http.post<Review>('/api/admin/reviews', request);
+    return this.http.post<Review>(this.adminBaseUrl, request);
   }
 
   update(id: number, request: ReviewRequest): Observable<Review> {
-    return this.http.put<Review>(`/api/admin/reviews/${id}`, request);
-  }
-
-  reorder(items: ReorderItem[]): Observable<void> {
-    return this.http.put<void>('/api/admin/reviews/reorder', items);
-  }
-
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/admin/reviews/${id}`);
+    return this.http.put<Review>(`${this.adminBaseUrl}/${id}`, request);
   }
 }

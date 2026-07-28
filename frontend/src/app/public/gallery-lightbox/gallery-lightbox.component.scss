@@ -29,3 +29,20 @@
   color: var(--venue-light);
   z-index: 1;
 }
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--venue-light);
+  z-index: 1;
+  background: color-mix(in srgb, var(--venue-dark) 60%, transparent 40%);
+
+  &--prev {
+    left: 0.25rem;
+  }
+
+  &--next {
+    right: 0.25rem;
+  }
+}

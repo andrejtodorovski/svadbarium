@@ -1,6 +1,7 @@
 package com.svadbarium.venue.gallery
 
 import com.svadbarium.venue.common.dto.ReorderItem
+import com.svadbarium.venue.gallery.dto.CaptionUpdateRequest
 import com.svadbarium.venue.gallery.dto.GalleryImageDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -32,6 +33,10 @@ class GalleryAdminController(
         service.reorder(items)
         return ResponseEntity.noContent().build()
     }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody request: CaptionUpdateRequest): GalleryImageDto =
+        service.updateCaption(id, request.caption)
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> {

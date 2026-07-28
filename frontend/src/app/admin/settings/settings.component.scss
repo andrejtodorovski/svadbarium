@@ -34,6 +34,15 @@
     flex-wrap: wrap;
   }
 
+  .contrast-warning {
+    margin: -0.5rem 0 1.5rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 4px;
+    background: rgba(180, 130, 20, 0.12);
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 0.85rem;
+  }
+
   .color-field {
     display: flex;
     flex-direction: column;

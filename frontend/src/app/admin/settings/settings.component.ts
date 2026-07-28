@@ -7,6 +7,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { VenueSettingsService } from '../../core/services/venue-settings.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { VenueSettings } from '../../core/models/venue-settings.model';
+import { contrastRatio } from '../../shared/color-contrast';
+
+// WCAG AA's own minimum for large text/UI components — the most lenient tier, so this only
+// flags combinations that would fail even that bar, not merely "not ideal for small print".
+const MIN_CONTRAST_RATIO = 3;
 
 @Component({
   selector: 'app-admin-settings',
@@ -32,6 +37,19 @@ export class SettingsComponent {
       this.instagram = settings.socialLinks['instagram'] ?? '';
       this.facebook = settings.socialLinks['facebook'] ?? '';
     });
+  }
+
+  // Called directly from the template rather than a computed() signal — ngModel mutates `s` in
+  // place without ever reassigning the settings() signal, so a computed() wouldn't re-run on
+  // every color tweak; a plain method re-evaluates on each change-detection pass same as any
+  // other template expression, which is what we actually want here.
+  contrastWarnings(s: VenueSettings): string[] {
+    const pairs: [string, string, string][] = [
+      [s.themeDarkColor, s.themeLightColor, 'Dark background and Light background'],
+      [s.themePrimaryColor, s.themeLightColor, 'Accent (gold) and Light background'],
+      [s.themePrimaryColor, s.themeDarkColor, 'Accent (gold) and Dark background'],
+    ];
+    return pairs.filter(([a, b]) => contrastRatio(a, b) < MIN_CONTRAST_RATIO).map(([, , label]) => label);
   }
 
   save(): void {

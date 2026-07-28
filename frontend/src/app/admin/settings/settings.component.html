@@ -116,6 +116,14 @@
       </label>
     </div>
 
+    @if (contrastWarnings(s); as warnings) {
+      @if (warnings.length > 0) {
+        <p class="contrast-warning">
+          Low contrast, may be hard to read: {{ warnings.join(', ') }}.
+        </p>
+      }
+    }
+
     <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
       {{ saving() ? 'Saving...' : 'Save changes' }}
     </button>
